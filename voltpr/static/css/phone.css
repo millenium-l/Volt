@@ -116,11 +116,15 @@
     background-color: beige;
     padding: 20px;
     margin-bottom: 100px;
+    overflow: scroll;
 }
 
 .image{
     margin-left: 60px;
     display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 .image img{

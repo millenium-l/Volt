@@ -25,8 +25,8 @@
     <h4>You've successfully logged in</h4>
     <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
 {% else %}
-    <a href="{% url 'account' %}" class="btn btn-secondary">Create account</a>
-    <a href="{% url 'signin' %}" class="btn btn-secondary">Sign in</a>
+    <a href="{% url 'register' %}" class="btn btn-secondary">Create account</a>
+    <a href="{% url 'login' %}" class="btn btn-secondary">log in</a>
 {% endif %}
 
 

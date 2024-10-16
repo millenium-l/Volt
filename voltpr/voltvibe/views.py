@@ -1,6 +1,6 @@
 # Create your views here.
 from django.shortcuts import render
-'''to store details to the database '''
+from .models import *
 
 
 # Create your views here.
@@ -9,6 +9,8 @@ def index(request):
 
 def home(request):
     return render(request, 'voltvibe/home.html')
-
+# store
 def phone(request):
-    return render(request, 'voltvibe/phone.html')
+    products = Product.objects.all()
+    context = {'products':products}
+    return render(request, 'voltvibe/phone.html', context)

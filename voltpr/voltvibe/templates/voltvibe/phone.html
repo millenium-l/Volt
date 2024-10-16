@@ -43,49 +43,27 @@
     </main>
 
     <main class="main2">
+        
         <h3 style="margin-bottom: 10px; background-color: white; width: 30%;">Something you may like</h3>
+        
         <div class="image">
-
             {% for product in products %}
-                    <a href="{% url 'description' product_id=1 %}">View Description</a>
+                <div class="product-item">
+                    <!-- to render images from the admin -->
+                    {% if product.image %}
+                <img class="thumbnail" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img class="thumbnail" src="{% static 'images/default_image.png' %}" alt="Default image">
+            {% endif %}
+                    <a href="{description.html}" style="text-decoration: none;">
+                        <h2>{{ product.name }}</h2> <hr>
+                        <p>{{ product.price }}ksh</p>
+                    </a>
+                 </div>
             {% endfor %}
-            
-            <div class="product-item">
-                <a href="{% url 'description' product_id=1 %}" style="text-decoration: none;">{{ product.name }}">
-                    <img src="{% static 'images/v40_197.png' %}" alt="samsung s24 ultra">
-                    <h2>Product 2</h2>
-                    <p>Samsung s24 ultra</p>
-                    <p>Price: $200</p>
-                </a>
-            </div>
-        
-            <div class="product-item 1">
-                <a href="Description.html" style="text-decoration: none;">
-                    <img src="{% static 'images/v40_189.png' %}" alt="oppo 37">
-                    <h2>Product 3</h2>
-                    <p>Oppo 37</p>
-                    <p>Price: $150</p>
-                </a>
-            </div>
-        
-            <div class="product-item 2">
-                <img src="{% static 'images/v40_188.png' %}" alt="oppo R15x">
-                <h2>Oppo R15x</h2>
-                <p>Description of product 3</p>
-                <p>Price: $150</p>
-            </div>
-        
-            <div class="product-item 3">
-                <img src="{% static 'images/v40_190.png' %}" alt="vivo Y55">
-                <h2>Vivo Y55</h2>
-                <p>Description of product 3</p>
-                <p>Price: $150</p>
-            </div>
-        
         </div>
-
         
-    
+        
     </main>
 
     <main class="main3">
