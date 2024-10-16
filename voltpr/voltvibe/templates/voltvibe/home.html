@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <title>Home</title>
+</head>
+<body>
+
+    <!-- use this after creating a logins page views.py-->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <h3>Hello {{ user.username }}</h3>
+    <h4>You've successfully logged in</h4>
+    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+{% else %}
+    <a href="{% url 'account' %}" class="btn btn-secondary">Create account</a>
+    <a href="{% url 'signin' %}" class="btn btn-secondary">Sign in</a>
+{% endif %}
+
+
+
+    <header class="main">
+        <nav class="navbar">
+            <div style="color: green;">
+                <p>Thank you for opting for our services</p>
+            </div>
+            <ul class="menu">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+        </nav>
+        <nav class="navbar2">
+            <span class="icon"></span>
+            <div class="nav">
+                <div class="logo"></div>
+                <ul class="menu2">
+                    <li><a href="{% url 'login' %}">My account</a></li>
+                </ul>
+                <div class="logo2"></div>
+                <ul class="menu2">
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main2">
+        <h2 class="location">Located at Mombasa</h2>
+        <div class="pic">
+            <div class="slides">
+                <img src="{% static 'images/v39_155.png' %}" alt="Image description 1">
+                <img src="{% static 'images/v39_156.png' %}" alt="Image description 2">
+                <img src="{% static 'images/v39_157.png' %}" alt="Image description 3">
+            </div>
+        </div>
+    </main> <hr>
+
+    <section class="main3">
+        <h3 class="categ">Categories</h3>
+        <div class="category">
+            <h2 class="phones"><p style="padding-left: 35px; padding-top: 60px;"><a href="{% url 'phone' %}">phones</a></p></h2>
+            <h2 class="laptops"><p style="padding-left: 35px; padding-top: 60px;">Laptop</p></h2>
+            <h2 class="tv"><p style="padding-right: 35px; padding-top: 60px;">Televisions</p></h2>
+        </div>
+    </section>
+
+    <section class="main4">
+        <h2>
+            <img src="{% static 'images/v39_169.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
+            Great value
+            <p style="font-weight: lighter; font-size: small;">We offer competitive prices on our 100+ product range</p>
+        </h2>
+        <h2>
+            <img src="{% static 'images/v39_172.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
+            Shop with confidence
+            <p style="font-weight: lighter; font-size: small;">Our buyer protection covers your purchase from click to delivery</p>
+        </h2>
+        <h2>
+            <img src="{% static 'images/v39_174.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
+            24/7 Help center
+            <p style="font-weight: lighter; font-size: small;">Round-the-clock assistance for a smooth shopping experience</p>
+        </h2>
+        <h2>
+            <img src="{% static 'images/v39_177.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
+            Safe payment
+            <p style="font-weight: lighter; font-size: small;">Pay with the world's most popular and secure payment methods</p>
+        </h2>
+    </section>
+</body>
+</html>

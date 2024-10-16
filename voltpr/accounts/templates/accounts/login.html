@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <title>signin</title>
+</head>
+<body>
+    <main id="main">
+        <div class="div1">
+            <h2>VOLT VIBE <br><p style="color: black; font-size: medium; font-weight: lighter; padding: 5pxpx;">The best marketplace for you</p></h2>
+        </div>
+
+        <div class="div2">
+            <div class="button">
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    <!--<input type="text" id="username" name="username" placeholder="Enter name" class="input" required>--> </br>
+                    <input type="username" id="username" name="username" placeholder="Enter username" class="input1" required> <br>
+                    <input type="password" id="password" name="password" placeholder="password" class="input1" required> <br> 
+                    <button type="submit" style="display: flex; background-color: rgb(57, 57, 246); padding: 10px; width: 50%; border-radius: 10px; cursor: pointer; color: white; justify-content: center; font-size: larger; font-weight: bold; margin: auto;">log in</button>
+                    <!--<input type="submit" value="log in" style="margin-left: 150px; display: flex; background-color: rgb(57, 57, 246); padding: 10px; width: 50%; border-radius: 10px; cursor: pointer; color: white; margin-top: 25px; font-size: larger; font-weight: bold;">--> <br> 
+                    <a href="" style="display: flex; justify-content: center; text-decoration: none; ">forgotten password?</a>
+                </form>
+            </div> <hr>
+
+            <div style="display: flex; margin-top: 10px; justify-content: center;">
+                
+               <a href="{% url 'register' %}" style="text-decoration: none; display: flex; background-color: rgb(50, 238, 50); padding: 13px; border-radius: 10px; width: 40%; justify-content: center; color: white;"> Create an account </a>
+            </div>
+            
+        </div>
+    </main>
+ 
+</body>
+</html>

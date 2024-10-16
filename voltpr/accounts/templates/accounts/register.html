@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <title>Register</title>
+</head>
+<body>
+    <main id="main">
+        <div class="div1">
+            <h2>VOLT VIBE <br>
+                <p style="color: black; font-size: medium; font-weight: lighter; padding: 5px;">The best marketplace for you</p>
+            </h2>
+        </div>
+
+        <div class="div2">
+            <div class="button">
+                <form method="post" class="form">
+                    {% csrf_token %}
+
+                    <!-- i dont use the {{% form.as_p } since i manually write it down in this html temp below so i can customize it -->
+                    
+                    <p>
+                        <input type="text" name="username" maxlength="150" required id="id_username" placeholder="username" autofocus required class="input1">
+                    </p>
+                    
+                    <p>
+                        <input type="email" name="email" maxlength="320" required id="id_email" placeholder="Email" required class="input2">
+                    </p>
+                    
+                    <p>
+                        <input type="password" name="password1" autocomplete="new-password" id="id_password1" placeholder="password" required class="input3">
+                        <span class="helptext" id="id_password1_helptext"></span>
+                    </p>
+                    
+                    <p>
+                        <input type="password" name="password2" autocomplete="new-password" id="id_password2"  placeholder="confirm password" required class="input4">
+                    </p>
+
+                    <button type="submit" style="margin-left: 100px; background-color: rgb(57, 57, 246); padding: 15px; width: 40%; border-radius: 10px; cursor: pointer; color: white;">Sign Up</button>
+                </form>
+            </div>
+            <hr>
+
+            <div style="display: flex; margin-top: 60px;">
+                <h4 style="margin-left: 20px; font-weight: lighter;">Already have an account? 
+                    <a href="{% url 'login' %}" style="text-decoration: none; margin-left: 30px; color: blue;">Sign In</a>
+                </h4>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

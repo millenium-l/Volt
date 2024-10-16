@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Home Page</title>
+</head>
+<body>
+    <header class="main">
+        <nav class="navbar">
+            <div class="icon">
+                <h2 class="logo"></h2>
+            </div>
+            <ul class="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="{% url 'login' %}">My Profile</a></li>
+            </ul>
+            <button class="cn"><a href="{% url 'home' %}">Shop Now</a></button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content">
+            <div class="div">
+                <h1 class="txt">Kenya’s <br><span>Premier</span><br>E-Commerce Platform </h1>
+                <p class="par">Welcome to <i>De Lei</i> Resort and Restaurant.<br>
+                We offer many services such as food and a place to stay.<br>
+                If interested, please reach out to us.</p>
+            </div>
+            
+            <div class="pic"></div>
+        </section>
+
+        <section class="content2">
+            <div class="par2">
+                <h2 class="mobile"> Mobile <p style="font-weight: lighter;">Install the app and start shopping</p> 
+                    <button class="cn">playstore: coming soon</button> <br>
+                    <button class="cn">appstore: coming soon</button></h2>
+                <h2 class="website"> Website <p style="font-weight: lighter;">Shop from the web</p>
+                    <button class="cn">shop now <a href="shop.html"></a></button> </h2>
+            </div>
+            <!-- Additional content can be added here -->
+             
+        </section>
+
+        <section class="content3">
+            <div>
+                <div class="icon">
+                    <h2 class="logo"></h2>
+                </div>
+                <div class="con3">
+                    <h2 class="join">Join us <p style="font-size: 15px; font-weight: 100;">start shopping <br> register at the shop <br> register for delivery</p> </h2>
+                
+                    <h2 class="about" style="font-size: larger;">About us <p style="font-size: 15px; font-weight: 200;">register at the store <br> register for delivery</p> </h2>
+                </div>
+                <div>
+                    <h2 class="about-text" style="padding: 20px;">What We Believe :
+                        <p style="font-weight: lighter; margin-left: 20px; font-size: 20px;">
+                            At VoltVibe, we believe in the perfect blend of technology and freshness. <br>
+                            Just as the best produce brings vitality and flavor to your meals, <br>our
+                            electronics enhance your life with cutting-edge innovation and quality.
+                            <br /><br />
+                            We’re committed to delivering:
+                            <br />
+                            Top-Notch Quality: Just like selecting the finest fruits and veggies, <br>we
+                            handpick every gadget to ensure it meets our high standards.
+                            <br /> <br>
+                            Innovation: Our products are at the forefront of technology, designed to
+                            keep you ahead of the curve.
+                            <br /> <br>
+                            Customer Satisfaction: Your experience matters to us, and we strive to <br>
+                            make every interaction as smooth and enjoyable as possible.
+                            <br /><br />
+                            Experience the freshest tech solutions and transform your digital world
+                            with VoltVibe!
+                        </p>
+                    </h2>
+                </div>
+
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>

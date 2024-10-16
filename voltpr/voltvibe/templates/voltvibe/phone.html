@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/phone.css' %}">
+    <title>Phones</title>
+</head>
+<body>
+    <header class="main"></header>
+        <nav class="navbar">
+            <div style="color: green;">
+                <p>Thank you for opting for our services</p>
+            </div>
+            <ul class="menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            
+        </nav>
+        <nav class="navbar2">
+            <span class="icon"></span>
+            <div class="nav">
+                <div class="logo"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="{% url 'login' %}">My account</a></li>
+                </ul>
+            
+                <div class="logo2"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="cart.html">cart</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div>
+            <img src="{% static 'images/v39_155.png' %}" alt="phone photo" style="height: 80vh; width: 75%; padding: 60px; margin-left: 130px; ">
+        </div>
+    </main>
+
+    <main class="main2">
+        <h3 style="margin-bottom: 10px; background-color: white; width: 30%;">Something you may like</h3>
+        <div class="image">
+
+            {% for product in products %}
+                    <a href="{% url 'description' product_id=1 %}">View Description</a>
+            {% endfor %}
+            
+            <div class="product-item">
+                <a href="{% url 'description' product_id=1 %}" style="text-decoration: none;">{{ product.name }}">
+                    <img src="{% static 'images/v40_197.png' %}" alt="samsung s24 ultra">
+                    <h2>Product 2</h2>
+                    <p>Samsung s24 ultra</p>
+                    <p>Price: $200</p>
+                </a>
+            </div>
+        
+            <div class="product-item 1">
+                <a href="Description.html" style="text-decoration: none;">
+                    <img src="{% static 'images/v40_189.png' %}" alt="oppo 37">
+                    <h2>Product 3</h2>
+                    <p>Oppo 37</p>
+                    <p>Price: $150</p>
+                </a>
+            </div>
+        
+            <div class="product-item 2">
+                <img src="{% static 'images/v40_188.png' %}" alt="oppo R15x">
+                <h2>Oppo R15x</h2>
+                <p>Description of product 3</p>
+                <p>Price: $150</p>
+            </div>
+        
+            <div class="product-item 3">
+                <img src="{% static 'images/v40_190.png' %}" alt="vivo Y55">
+                <h2>Vivo Y55</h2>
+                <p>Description of product 3</p>
+                <p>Price: $150</p>
+            </div>
+        
+        </div>
+
+        
+    
+    </main>
+
+    <main class="main3">
+        
+        <h2><img src="{% static 'images/v39_169.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Great value <p style="font-weight: lighter; font-size: small;">We offer competitive prices <br>on our 100 plus product range</p> </h2>
+        <h2><img src="{% static 'images/v39_172.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Shop with confidence <p style="font-weight: lighter; font-size: small;">Our buyer protection covers your purchase <br> from click to delivery</p> </h2>
+        <h2><img src="{% static 'images/v39_174.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>24/7 Help center <p style="font-weight: lighter; font-size: small;">Round-the-clock assistance for a smooth shopping  <br>experience</p> </h2>
+        <h2><img src="{% static 'images/v39_177.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Safe payment <p style="font-weight: lighter; font-size: small;">pay with the world's most popular <br>and secure payment methods</p> </h2>
+    </main>
+</body>
+</html>

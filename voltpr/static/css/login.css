@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Add box-sizing to handle padding and border within width/height */
+}
+
+main{
+    padding: 50px;
+    text-align: left;
+    margin-left: 150px;
+    display: flex;
+}
+
+.div1{
+    color: blue;
+    margin-top: 200px;
+    font-size: 30px;
+}
+
+.div2{
+    background-color: rgb(227, 227, 227);
+    height: 65vh;
+    width: 60%;
+    margin-top: 100px;
+    margin-left: 100px;
+    border-radius: 15px;
+}
+
+.button{
+    height: 50vh;
+}
+
+.form{
+    padding: 20px;
+}
+
+.input{
+    padding: 15px;
+    width: 100%;
+    border: 2px solid white;
+    margin-bottom: 15px;
+}
+
+.input1{
+    padding: 20px;
+    width: 100%;
+    border: 2px solid white;
+    margin-bottom: 15px;
+}
