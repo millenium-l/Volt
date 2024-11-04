@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <title>Cart</title>
+</head>
+<body>
+    <header class="main"></header>
+        <nav class="navbar">
+            <div style="color: green;">
+                <a href="{% url 'index' %}" style="text-decoration: none; font-size: larger; font-weight: bolder;"><p>Voltvibe</p></a>
+            </div>
+            <ul class="menu">
+                <li><a href="{% url 'home' %}">Home</a></li>
+            </ul>
+            
+        </nav>
+        <nav class="navbar2">
+            <span class="icon"></span>
+            <div class="nav">
+                <div class="logo"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="{% url 'login' %}">My account</a></li>
+                </ul>
+            
+                <div class="logo2"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="{% url 'cart'}">cart</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="shopping">
+            <span class="shp">
+                <a href="{% url 'phone' %}" style="text-decoration: none; padding: 10px; border: 2px solid black;"> <<<< continue shopping</a>
+
+            </span> <hr>
+
+            <span class="shop">
+                <p style="margin-right: 300px;">items:3</p>
+                <p style="margin-right: 650px;">Total:20000ksh</p>
+                <a href="checkout.html" style="text-decoration: none; background-color: rgb(149, 220, 34); padding: 10px; border-radius: 10px;">checkout</a>
+            </span> 
+
+        </div>
+
+        <div class="item">
+            <span class="items">
+                    <p style="margin-left: 300px; margin-right: 200px;">item</p>
+                    <p style="margin-right: 200px;">price</p> 
+                    <p style="margin-right: 200px;">quantity</p>
+                    <p>Total</p>
+            </span><hr>
+            <div id="product">
+                {% for item in items %}
+                    <div class="item2" style="padding: 15px;">
+                        <div style="margin-left: 285px; margin-right: 200px;"><img src="{{item.product.imageURL}}"></div>
+                        <div style="margin-right: 200px;">{{item.product.name}}</div>
+                        <div style="margin-right: 200px;">{{item.product.price|floatformat:2}}</div>
+                        <div>{{item.quantity}}</div>
+                        <form action="{% url 'remove_from_cart' item.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Remove</button>
+                        </form>
+
+                    </div> <hr>
+                {% endfor %}
+            </div>
+
+            <span style="padding: 5px;"></span>
+        </div>
+    </main>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+</body>
+</html>

@@ -58,6 +58,11 @@
                     <a href="{description.html}" style="text-decoration: none;">
                         <h2>{{ product.name }}</h2> <hr>
                         <p>{{ product.price }}ksh</p>
+                        <!--<button style="background-color: aqua;"><a href="{%  url 'cart'  %}" style="text-decoration: none;">add to cart</a></button>-->
+                        <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit">Add to Cart</button>
+                        </form>
                     </a>
                  </div>
             {% endfor %}
@@ -73,5 +78,8 @@
         <h2><img src="{% static 'images/v39_174.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>24/7 Help center <p style="font-weight: lighter; font-size: small;">Round-the-clock assistance for a smooth shopping  <br>experience</p> </h2>
         <h2><img src="{% static 'images/v39_177.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Safe payment <p style="font-weight: lighter; font-size: small;">pay with the world's most popular <br>and secure payment methods</p> </h2>
     </main>
+
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
 </body>
 </html>
