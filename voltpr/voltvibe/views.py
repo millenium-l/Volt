@@ -58,13 +58,20 @@ def cart(request):
 def add_to_cart(request, product_id):
     # The code first checks if the user is logged in (is_authenticated). If the user is not logged in, it will redirect them to the login page.
     if request.user.is_authenticated:
+        try:
+        # Retrieve or create the associated customer object
         # If the user is authenticated, it retrieves the associated customer object.
-        customer = request.user.customer
+            customer = request.user.customer
+        except Customer.DoesNotExist:
+         #Optionally create a new customer or handle this case
+            customer = Customer.objects.create(user=request.user)
         # Then, it uses get_or_create to either fetch an existing order for that customer that is not yet complete (complete=False) or create a new one if it doesn't exist.
+        # Ensure the user has only one incomplete order (active cart)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         # This line retrieves the product using the provided product_id. If the product does not exist, a 404 error is raised.
         product = get_object_or_404(Product, id=product_id)
         
+        # Add the product to the cart (order)
         order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
         if not created:
             order_item.quantity += 1  # Increment quantity if already exists

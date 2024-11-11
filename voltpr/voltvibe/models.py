@@ -12,11 +12,11 @@ class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     #unique=True constraint to the email field to prevent duplicate email entries.
-    email = models.CharField(max_length=200, unique=True)
+    email = models.EmailField(max_length=200, unique=True)
 
     #str method: Returns the customer's name for easy identification.
     def __str__(self):
-        return self.name
+        return self.name if self.name else f"Customer #{self.id}"
 
 ''' Product Model: Used to store information about each product available in your store. 
     This model holds details like the product's name, price, whether it's a digital product, and its image. 
@@ -59,6 +59,6 @@ class OrderItem(models.Model):
     # A foreign key linking to the Product model. If the product is deleted, the order item will not be deleted; instead, it will be set to null.
 	product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
 	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	quantity = models.IntegerField(default=0, null=True, blank=True)
+	quantity = models.IntegerField(default=1, null=True, blank=True)
 	date_added = models.DateTimeField(auto_now_add=True)
-     
+    

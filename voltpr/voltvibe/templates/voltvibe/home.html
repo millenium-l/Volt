@@ -23,10 +23,10 @@
 {% if user.is_authenticated %}
     <h3>Hello {{ user.username }}</h3>
     <h4>You've successfully logged in</h4>
-    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+    <button style="margin-left: 92%;"><a href="{% url 'logout' %}" class="btn btn-primary" style="text-decoration: none; color: rgb(81, 129, 8);">Logout</a></button>
 {% else %}
-    <a href="{% url 'register' %}" class="btn btn-secondary">Create account</a>
-    <a href="{% url 'login' %}" class="btn btn-secondary">log in</a>
+    <button><a href="{% url 'register' %}" class="btn btn-secondary">Create account</a></button>
+    <button><a href="{% url 'login' %}" class="btn btn-secondary">log in</a></button>
 {% endif %}
 
 

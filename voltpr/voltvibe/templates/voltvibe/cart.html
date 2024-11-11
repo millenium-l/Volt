@@ -50,18 +50,18 @@
 
         <div class="item">
             <span class="items">
-                    <p style="margin-left: 300px; margin-right: 200px;">item</p>
+                    <p style="margin-left: 300px; margin-right: 200px;">name</p>
                     <p style="margin-right: 200px;">price</p> 
                     <p style="margin-right: 200px;">quantity</p>
-                    <p>Total</p>
+                    <p></p>
             </span><hr>
             <div id="product">
                 {% for item in items %}
                     <div class="item2" style="padding: 15px;">
-                        <div style="margin-left: 285px; margin-right: 200px;"><img src="{{item.product.imageURL}}"></div>
-                        <div style="margin-right: 200px;">{{item.product.name}}</div>
-                        <div style="margin-right: 200px;">{{item.product.price|floatformat:2}}</div>
-                        <div>{{item.quantity}}</div>
+                        <div style="margin-left: 255px; margin-right: 2px;"><img src="{{item.product.imageURL}}"></div>
+                        <div style="margin-right: 150px;">{{item.product.name}}</div>
+                        <div style="margin-right: 180px;">{{item.product.price|floatformat:2}}</div>
+                        <div style="margin-right: 200px;">{{item.quantity}}</div>
                         <form action="{% url 'remove_from_cart' item.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit">Remove</button>
