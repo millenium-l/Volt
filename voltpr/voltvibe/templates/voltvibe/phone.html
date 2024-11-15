@@ -22,7 +22,7 @@
             
         </nav>
         <nav class="navbar2">
-            <span class="icon"></span>
+            <span class="icon"><a href="{% url 'home' %}" style="text-decoration: none;"><h2 style="font-size: 25px;"> VOLT <span style="color: blue;"> VIBE</span> </h2></a></span>
             <div class="nav">
                 <div class="logo"></div>
                 <ul class="menu2">
@@ -31,7 +31,7 @@
             
                 <div class="logo2"></div>
                 <ul class="menu2">
-                    <li style="list-style: none;"><a href="cart.html">cart</a></li>
+                    <li style="list-style: none;"><a href="{% url 'cart' %}">cart</a></li>
                 </ul>
             </div>
         </nav>
@@ -51,12 +51,12 @@
                 <div class="product-item">
                     <!-- to render images from the admin -->
                     {% if product.image %}
-                <img class="thumbnail" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <img class="thumbnail" src="{{ product.image.url }}" alt="{{ product.name }}" style="cursor: zoom-in;">
             {% else %}
                 <img class="thumbnail" src="{% static 'images/default_image.png' %}" alt="Default image">
             {% endif %}
                     <a href="{description.html}" style="text-decoration: none;">
-                        <h2>{{ product.name }}</h2> <hr>
+                        <a href="{% url 'description' product.id%}" style="text-decoration: none;"><h2>{{ product.name }}</h2> </a><hr>
                         <p>{{ product.price }}ksh</p>
                         <!--<button style="background-color: aqua;"><a href="{%  url 'cart'  %}" style="text-decoration: none;">add to cart</a></button>-->
                         <form action="{% url 'add_to_cart' product.id %}" method="POST">

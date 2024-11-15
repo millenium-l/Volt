@@ -112,11 +112,11 @@
 }
 
 .main2{
-    height: 80vh;
+    /*height: auto;*/
     background-color: beige;
     padding: 20px;
     margin-bottom: 100px;
-    overflow: scroll;
+    /*overflow: scroll;*/
 }
 
 .image{

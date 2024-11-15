@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
     Each Customer instance is linked to a user account through a one-to-one relationship 
     with Django's built-in User model.  
 '''
+# it is typically used to extend the default User model with additional fields or methods that are specific to your application's domain.
 class Customer(models.Model):
     #a one-to-one relationship with Django's built-in User model, allowing each customer to have a corresponding user account. If the user is deleted, the associated customer will also be deleted due to
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -29,8 +30,12 @@ class Product(models.Model):
     #we have to pip install pillow to handle images
     image = models.ImageField(null=True, blank=True)
     #str method: Returns the product's name for easy identification.
+    description = models.TextField(null=True, blank=True)
+    detailed_description = models.TextField(null=True, blank=True)
     def __str__(self):
         return self.name
+    
+
 
 ''' Order Model: Represents every order made by the user. 
     Each Order instance is linked to a Customer, allowing you to track which customer placed the order, 

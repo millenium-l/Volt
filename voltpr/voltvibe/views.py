@@ -19,6 +19,14 @@ def phone(request):
     context = {'products':products}
     return render(request, 'voltvibe/phone.html', context)
 
+def description(request, product_id):
+     # Fetch the description by ID, or show 404 if not found
+    product = get_object_or_404(Product, id=product_id)
+    # 'product'is the key used in html and product is the value which is picked from defination function
+    context = {'product': product}
+    # for users to view
+    return render(request, 'voltvibe/description.html', context)
+
 #for authenticated users
 # enables the users to view the cart
 
