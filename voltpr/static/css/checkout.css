@@ -11,10 +11,58 @@
     background: white;
     background-position: center;
     background-size: cover;
+    height: 30vh;
     display: flex;
     flex-direction: column;
 }
 
+/* Navbar styling */
+.navbar {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+/* Menu styling */
+.menu {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 100px;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.menu li {
+    display: inline;
+    padding: 20px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.menu .button {
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 20px;
+}
 
 /* Additional navbar styling */
 .navbar2 {
@@ -64,21 +112,21 @@
     margin-right: 20px;
 }
 
-.main2{
-    margin-top: 20px;
+main{
+    margin: 1px 100px 0px 100px;
     display: flex;
-    padding: 50px;
 }
 
-/*.samsung{
-    margin-left: 250px;
-}*/
-
-.main3{
-    background-color: gray;
+.select{
+    padding: 2px;
+    margin-bottom: 35px;
+    display: flex;
+    gap: 30px;
+    font-size: large;
 }
 
-.description p{
-    margin-bottom: 20px;
-    margin-left: 20px;
+.action{
+    padding: 2px;
+    margin-bottom: 40px;
 }
+

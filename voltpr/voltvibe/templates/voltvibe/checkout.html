@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+    <title>Checking</title>
+</head>
+<body>
+    <header class="main">
+        <nav class="navbar">
+            <div style="color: green;">
+                <p>Thank you for opting for our services</p>
+            </div>
+            <ul class="menu">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            
+        </nav>
+        <nav class="navbar2">
+            <span class="icon"></span>
+            <div class="nav">
+                <div class="logo"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="{% url 'login' %}">login</a></li>
+                </ul>
+            
+                <div class="logo2"></div>
+                <ul class="menu2">
+                    <li style="list-style: none;"><a href="{% url 'cart' %}">cart</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+<main>
+    <div style="width: 75%;">      
+    <h4 style="font-size: large;">How would you like to receive your goods?</h4> 
+
+    <div class="select">
+        <div class="collection">
+            <input type="radio" name="delivery_option" id="collection" value="collection" class="form-check-input" checked="">
+            <label for="collection" class="form-check-label">
+                <i class="fa fa-store me-2" style="color:#153448;"></i>Collection
+            </label>
+        </div>
+
+        <div class="form-check">
+            <input type="radio" name="delivery_option" id="delivery" value="delivery" class="form-check-input">
+            <label for="delivery" class="form-check-label">
+                <i class="fa fa-truck me-2" style="color:#153448;"></i>Delivery
+            </label>
+        </div>
+    
+    </div>
+    
+    <div class="action">
+        <form action="shipping" method="post">
+          {% csrf_token %}
+        <div style="display: flex; margin-bottom: 50px; gap: 30px;">
+            <div style="width: auto; gap: 20px; flex-wrap: wrap;">
+                    <label for="name">Name:</label><br>
+                    <input type="text" name="name" placeholder="Enter your name" required style="border-radius: 8px; width: 100%; padding: 10px; font-size: large;"><br>
+               </div>
+               <div> 
+                    <label for="phone">Phone Number:</label><br>
+                    <input type="text" name="phone_number" placeholder="Enter your phone number" required style="border-radius: 8px; width: 100%; padding: 10px; font-size: large;"><br>
+                </div>
+            </div>
+
+            <label for="location" style="font-size: large;">pickup location:</label>
+            <select name="pickup_location" class="form-select" style="border-radius: 8px; width: 90%; height: 8vh; font-size: large;">
+                <option value="">Select Location</option>
+                <option value="Nairobi">Nairobi</option>
+                <option value="Eldoret">Mombasa</option>
+                <option value="Machakos">Kiambu</option>
+            </select> <br>
+
+            <button onclick="alert('successfull')" style="margin-top: 50px; width: 135%; padding: 15px; border-radius: 10px; background-color: lightblue; cursor: pointer;">continue</button>
+
+        </form>
+    </div>
+</div>  
+
+    <div>
+        <div>
+          <div>Cart Summary</div> <hr>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Product-name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in order.orderitem_set.all %}
+                <tr>
+                  <td>
+                    <div>
+                      <p>{{ item.product.name }}</p>
+                    </div>
+                  </td>
+
+                  <td style="position: relative; gap: 10px;">{{ item.quantity }} x </td>
+                  <td class="text-end">
+                    {{ item.product.price }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2"><strong style="color: blue;">Total:</strong></td>
+                  <td >
+                    <strong style="color: blue;">${{ total_sum }}</strong>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+</main>
+</body>
+</html>

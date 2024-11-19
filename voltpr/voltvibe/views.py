@@ -1,6 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from django.contrib import messages
 from .models import Product, Order, OrderItem
 
 
@@ -89,14 +90,44 @@ def add_to_cart(request, product_id):
     else:
         return redirect('login')  # Redirect non-auth users to login
 
-def remove_from_cart(request, item_id):
+def remove_from_cart(request, product_id):
     if request.user.is_authenticated:
-        order_item = get_object_or_404(OrderItem, id=item_id)
+         # Retrieve and delete the order item
+        order_item = get_object_or_404(OrderItem, id=product_id)
         order_item.delete()
         return redirect('cart')
     else:
         return redirect('login')  # Redirect non-auth users to login
 
 def checkout(request):
-	context = {}
-	return render(request, 'voltvibe/checkout.html', context)
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+        # Calculate the total sum of the order
+        total_sum = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
+
+        if request.method == 'POST':
+            # Get the name and phone number from the POST request
+            name = request.POST.get('name')
+            phone_number = request.POST.get('phone_number')
+
+            # Validate the inputs
+            if not name or not phone_number:
+                messages.error(request, 'Both name and phone number are required.')
+            else:
+                # Save the data to the order model or a separate model if necessary
+                order.customer_name = name
+                order.customer_phone = phone_number
+                order.save()
+
+                # Proceed to payment (for now, just a success message)
+                return redirect('payment')  # Redirect to payment page (or your payment logic here)
+
+        context = {
+            'order': order,
+            'total_sum': total_sum,
+        }
+        return render(request, 'voltvibe/checkout.html', context)
+    else:
+        return redirect('login')  # Redirect non-auth users to login
