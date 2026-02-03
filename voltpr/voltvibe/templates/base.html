@@ -1,0 +1,69 @@
+{% load static %} {% load django_bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    {% block extra_css %}{% endblock %}
+    <title>{{ title }}</title>
+</head>
+<body>
+    
+
+    <!-- use this after creating a logins page views.py-->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <h3>Hello {{ user.username }}</h3>
+    <h4>You've successfully logged in</h4>
+    <button style="margin-left: 92%;"><a href="{% url 'logout' %}" class="btn btn-primary" style="text-decoration: none; color: rgb(81, 129, 8);">Logout</a></button>
+{% else %}
+    <button><a href="{% url 'register' %}" class="btn btn-secondary">Create account</a></button>
+    <button><a href="{% url 'login' %}" class="btn btn-secondary">log in</a></button>
+{% endif %}
+
+
+
+    <header class="main">
+        <nav class="navbar">
+            <div style="color: green;">
+                <p>Thank you for opting for our services</p>
+            </div>
+            <ul class="menu">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+        </nav>
+        <nav class="navbar2">
+            <a href="{% url 'home' %}" style="text-decoration: none;"><div><span style="color: green;">Volt</span>Vibe</div></a>
+            <div class="nav">
+                <div class="logo"></div>
+                <ul class="menu2">
+                    <li><a href="{% url 'profile' %}">My account</a></li>
+                </ul>
+                <div class="logo2"></div>
+                <ul class="menu2">
+                    <li><a href="{% url 'cart' %}">Cart</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content">{% block content %} {% endblock content %}</div>
+
+      <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+</body>
+</html>

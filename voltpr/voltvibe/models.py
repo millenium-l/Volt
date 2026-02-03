@@ -22,6 +22,19 @@ class Customer(models.Model):
 ''' Product Model: Used to store information about each product available in your store. 
     This model holds details like the product's name, price, whether it's a digital product, and its image. 
 '''
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+     #str method: Returns the profile's user name for easy identification.
+    def __str__(self):
+        return self.user.username
+    
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     # ensuring non-negative values we use (default=0.0)

@@ -1,8 +1,12 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib import messages
 from .models import Product, Order, OrderItem
+from datetime import datetime
+from django.utils import timezone
+from django.db.models import Q, Count
 
 
 # takes a request object and returns a responsethat renders the index.html
@@ -12,6 +16,18 @@ def index(request):
 
 def home(request):
     return render(request, 'voltvibe/home.html')
+
+
+@login_required
+def profile(request):
+    profile = request.user.profile # access the profile linked to the user
+    context = {
+        'title': profile,
+        'profile': profile,
+        'current_year': timezone.now().year,
+    }
+    return render(request, 'voltvibe/profile.html')
+
 # store
 def phone(request):
     #retrieves all product instances from the database

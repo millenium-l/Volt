@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'voltvibe',
     'accounts',
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication
 # after successful login
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/voltvibe/home/'
 # after successful logout
 LOGOUT_REDIRECT_URL = '/login/'
 # when need to login
