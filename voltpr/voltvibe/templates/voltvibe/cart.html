@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
     
-<body>
    
     <main>
         <div class="shopping">
@@ -15,8 +14,8 @@
             </span> <hr>
 
             <span class="shop">
-                <p style="margin-right: 300px;">items:3</p>
-                <p style="margin-right: 650px;">Total:20000ksh</p>
+                <p style="margin-right: 300px;">Items: {{ order.get_cart_items }}</p>
+                <p style="margin-right: 650px;">Total: {{ order.get_cart_total }} Ksh</p>
                 <a href="{% url 'checkout' %}" style="text-decoration: none; background-color: rgb(149, 220, 34); padding: 10px; border-radius: 10px;">checkout</a>
             </span> 
 
@@ -32,7 +31,7 @@
             <div id="product">
                 {% for item in items %}
                     <div class="item2" style="padding: 15px;">
-                        <div style="margin-left: 255px; margin-right: 2px;"><img src="{{product.image.url}}"></div>
+                        <div style="margin-left: 25px; margin-right: 2px;"><img src="{{ item.product.image.url }}"></div>
                         <div style="margin-right: 150px;">{{item.product.name}}</div>
                         <div style="margin-right: 180px;">{{item.product.price|floatformat:2}}</div>
                         <div style="margin-right: 200px;">{{item.quantity}}</div>
@@ -50,6 +49,6 @@
     </main>
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
-</body>
-</html>
+
+
 {% endblock content %}

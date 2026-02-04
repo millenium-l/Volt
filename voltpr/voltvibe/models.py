@@ -67,6 +67,16 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    @property
+    def get_cart_total(self):
+        order_items = self.orderitem_set.all()
+        return sum(item.get_total for item in order_items)
+
+    @property
+    def get_cart_items(self):
+        order_items = self.orderitem_set.all()
+        return sum(item.quantity for item in order_items)
 
 ''' OrderItem Model: Stores each individual product that is part of an order. 
     It links to both the Product and Order models, allowing you to specify the quantity of each product ordered 
@@ -74,9 +84,13 @@ class Order(models.Model):
 '''
 # its like the cart since it is an unfinished order
 class OrderItem(models.Model):
-    # A foreign key linking to the Product model. If the product is deleted, the order item will not be deleted; instead, it will be set to null.
-	product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	quantity = models.IntegerField(default=1, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
-    
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        if self.product:
+            return self.product.price * self.quantity
+        return 0

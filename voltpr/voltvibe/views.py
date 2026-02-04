@@ -74,7 +74,7 @@ def cart(request):
     else:
         items = []
 	#A context dictionary is created to pass the items to the template so as the users can see what we want to display in the browser:
-    context = {'items': items}
+    context = {'items': items, 'order': order}
     #Finally, it renders the 'cart.html' template, providing it with the context:
     return render(request, 'voltvibe/cart.html', context)
 
@@ -98,13 +98,18 @@ def add_to_cart(request, product_id):
         
         # Add the product to the cart (order)
         order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-        if not created:
-            order_item.quantity += 1  # Increment quantity if already exists
-            order_item.save()
+        
+        if created:
+            order_item.quantity = 1
+        else:
+            order_item.quantity += 1
+
+        order_item.save()
+        
+        
         
         return redirect('cart')
-    else:
-        return redirect('login')  # Redirect non-auth users to login
+
 
 def remove_from_cart(request, product_id):
     if request.user.is_authenticated:
