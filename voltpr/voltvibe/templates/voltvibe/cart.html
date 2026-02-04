@@ -1,38 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
-    <title>Cart</title>
-</head>
+{% endblock %}
+    
 <body>
-    <header class="main"></header>
-        <nav class="navbar">
-            <div style="color: green;">
-                <a href="{% url 'index' %}" style="text-decoration: none; font-size: larger; font-weight: bolder;"><p>Voltvibe</p></a>
-            </div>
-            <ul class="menu">
-                <li><a href="{% url 'home' %}">Home</a></li>
-            </ul>
-            
-        </nav>
-        <nav class="navbar2">
-            <span class="icon"></span>
-            <div class="nav">
-                <div class="logo"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'login' %}">login</a></li>
-                </ul>
-            
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'cart'}">cart</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+   
     <main>
         <div class="shopping">
             <span class="shp">
@@ -78,3 +52,4 @@
 
 </body>
 </html>
+{% endblock content %}
