@@ -1,43 +1,9 @@
+{% extends 'base.html' %} {% block content %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/description.css' %}">
-    <title>Description</title>
-</head>
-<body>
-    <header class="main">
-        <nav class="navbar">
-            <div style="color: green;">
-                <p>Thank you for opting for our services</p> <br>
-                <a href="{% url 'home' %}" style="text-decoration: none;"><h2 style="font-size: 25px;"> VOLT <span style="color: blue;"> VIBE</span> </h2></a>
-
-            </div>
-            
-        </nav>
-        <nav class="navbar2">
-            <span class="icon"></span>
-            <div class="nav">
-                <div class="logo"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'login' %}">login</a></li>
-                </ul>
-            
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'cart' %}">cart</a></li>
-                </ul>
-
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'home' %}">home</a></li>
-                </ul>
-
-            </div>
-        </nav>
-    </header>
+{% endblock %}
 
     <main class="main2" style="display: flex;">
             {% if product.image %}
@@ -71,5 +37,4 @@
         </div>
     </main>
 
-</body>
-</html>
+{% endblock content %}
