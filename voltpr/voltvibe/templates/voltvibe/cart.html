@@ -34,7 +34,19 @@
                         <div style="margin-left: 25px; margin-right: 2px;"><img src="{{ item.product.image.url }}"></div>
                         <div style="margin-right: 150px;">{{item.product.name}}</div>
                         <div style="margin-right: 180px;">{{item.product.price|floatformat:2}}</div>
-                        <div style="margin-right: 200px;">{{item.quantity}}</div>
+                        <div style="margin-right: 200px; display: flex; align-items: center; gap: 10px;">
+    <form action="{% url 'decrease_quantity' item.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">−</button>
+    </form>
+
+    <strong>{{ item.quantity }}</strong>
+
+    <form action="{% url 'increase_quantity' item.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">+</button>
+    </form>
+</div>
                         <form action="{% url 'remove_from_cart' item.id %}" method="POST">
                             {% csrf_token %}
                             <button type="submit">Remove</button>

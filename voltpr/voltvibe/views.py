@@ -109,6 +109,27 @@ def add_to_cart(request, product_id):
         
         
         return redirect('cart')
+    
+
+def increase_quantity(request, item_id):
+    if request.user.is_authenticated:
+        item = get_object_or_404(OrderItem, id=item_id)
+        item.quantity += 1
+        item.save()
+    return redirect('cart')
+
+
+def decrease_quantity(request, item_id):
+    if request.user.is_authenticated:
+        item = get_object_or_404(OrderItem, id=item_id)
+        item.quantity -= 1
+
+        if item.quantity <= 0:
+            item.delete()
+        else:
+            item.save()
+
+    return redirect('cart')
 
 
 def remove_from_cart(request, product_id):
