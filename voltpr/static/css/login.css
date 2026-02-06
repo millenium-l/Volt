@@ -1,23 +1,24 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Add box-sizing to handle padding and border within width/height */
+    box-sizing: border-box;
+    /* Add box-sizing to handle padding and border within width/height */
 }
 
-main{
+main {
     padding: 50px;
     text-align: left;
     margin-left: 150px;
     display: flex;
 }
 
-.div1{
+.div1 {
     color: blue;
     margin-top: 200px;
     font-size: 30px;
 }
 
-.div2{
+.div2 {
     background-color: rgb(227, 227, 227);
     height: 65vh;
     width: 60%;
@@ -26,22 +27,22 @@ main{
     border-radius: 15px;
 }
 
-.button{
+.button {
     height: 50vh;
 }
 
-.form{
+.form {
     padding: 20px;
 }
 
-.input{
+.input {
     padding: 15px;
     width: 100%;
     border: 2px solid white;
     margin-bottom: 15px;
 }
 
-.input1{
+.input1 {
     padding: 20px;
     width: 100%;
     border: 2px solid white;

@@ -2,7 +2,8 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Add box-sizing to handle padding and border within width/height */
+    box-sizing: border-box;
+    /* Add box-sizing to handle padding and border within width/height */
 }
 
 .main {
@@ -12,23 +13,28 @@
     background-size: cover;
     height: 20vh;
     display: flex;
-    flex-direction: column; /* Ensures the navbar and content are stacked vertically */
+    flex-direction: column;
+    /* Ensures the navbar and content are stacked vertically */
 }
 
 .navbar {
     width: 100%;
     height: 75px;
     display: flex;
-    align-items: center; /* Vertically centers items within the navbar */
-    padding: 20px; /* Adds horizontal padding */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow */
+    align-items: center;
+    /* Vertically centers items within the navbar */
+    padding: 20px;
+    /* Adds horizontal padding */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Optional: adds a subtle shadow */
 }
 
 .icon {
     width: 200px;
     height: 70px;
     background: url(../images/Vibe.png) no-repeat center;
-    background-size: contain; /* Ensures the image fits within the div */
+    background-size: contain;
+    /* Ensures the image fits within the div */
 }
 
 .menu {
@@ -40,35 +46,50 @@
 }
 
 .menu ul {
-    list-style: none; /* Removes default list styling */
+    list-style: none;
+    /* Removes default list styling */
     display: flex;
-    gap: 20px; /* Adds spacing between menu items */
+    gap: 20px;
+    /* Adds spacing between menu items */
 }
 
 .menu li {
-    display: inline; /* Ensures menu items are displayed in a row */
+    display: inline;
+    /* Ensures menu items are displayed in a row */
     padding: 20px;
 }
 
 .menu a {
-    text-decoration: none; /* Removes underline from links */
-    color: black; /* Sets text color */
-    font-weight: bold; /* Makes text bold */
+    text-decoration: none;
+    /* Removes underline from links */
+    color: black;
+    /* Sets text color */
+    font-weight: bold;
+    /* Makes text bold */
 }
 
 .menu .cn {
-    background-color: #007BFF; /* Sets a background color for the button */
-    border: none; /* Removes default button border */
-    color: white; /* Sets text color */
-    padding: 10px 20px; /* Adds padding inside the button */
-    font-size: 16px; /* Adjusts font size */
-    cursor: pointer; /* Shows pointer cursor on hover */
-    border-radius: 5px; /* Rounds the corners of the button */
-    margin-left: 20px; /* Adds spacing between menu items and button */
+    background-color: #007BFF;
+    /* Sets a background color for the button */
+    border: none;
+    /* Removes default button border */
+    color: white;
+    /* Sets text color */
+    padding: 10px 20px;
+    /* Adds padding inside the button */
+    font-size: 16px;
+    /* Adjusts font size */
+    cursor: pointer;
+    /* Shows pointer cursor on hover */
+    border-radius: 5px;
+    /* Rounds the corners of the button */
+    margin-left: 20px;
+    /* Adds spacing between menu items and button */
 }
 
 .cn {
-    color: black; /* Ensures link text is white */
+    color: black;
+    /* Ensures link text is white */
     background-color: rgb(54, 129, 243);
     height: 50px;
     width: 100px;
@@ -76,69 +97,69 @@
     margin-bottom: 5px;
 }
 
-.cn a{
+.cn a {
     text-decoration: none;
     color: black;
 }
 
-.content{
+.content {
     padding-left: 100px;
     display: flex;
     height: 90vh;
     box-shadow: 0 2px 4px rgba(7, 1, 1, 0.265);
 }
 
-.div{
+.div {
     margin-top: 30px;
 }
 
-.txt{
+.txt {
     font-size: 60px;
 }
 
-.par{
+.par {
     margin-top: 15px;
 }
 
-.pic{
+.pic {
     background: url(../images/pic.png) no-repeat;
     width: 700px;
     height: 400px;
     background-size: contain;
 }
 
-.content2{
+.content2 {
     height: 50vh;
     box-shadow: 0 2px 4px rgba(7, 5, 5, 0.21);
 }
 
-.par2{
+.par2 {
     display: flex;
     text-align: center;
     justify-content: center;
 }
 
-.mobile{
+.mobile {
     padding: 20px;
 }
 
-.website{
+.website {
     padding: 20px;
     margin-left: 210px;
 }
 
-.content3{
+.content3 {
     height: 100vh;
 }
 
-.con3{
+.con3 {
     justify-content: center;
     text-align: center;
     display: flex;
     height: 250px;
 }
 
-.join{
+.join {
     background-color: gray;
     width: 130px;
     height: 160px;
@@ -147,7 +168,7 @@
     border-radius: 10px;
 }
 
-.about{
+.about {
     background-color: gray;
     width: 130px;
     height: 160px;
@@ -156,6 +177,40 @@
     border-radius: 10px;
 }
 
-.about-text{
+.about-text {
     display: flex;
+}
+
+.footer {
+    background: #f8f8f8;
+    padding: 60px 0;
+    margin-top: 100px;
+}
+
+.footer-features {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.feature {
+    text-align: center;
+    max-width: 250px;
+}
+
+.feature img {
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.feature h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.feature p {
+    font-size: 13px;
+    color: #666;
 }

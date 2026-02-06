@@ -6,6 +6,7 @@
 {% endblock %}
 
 
+
 <body>
     <main class="main2">
         <h2 class="location">Located at Mombasa</h2>
@@ -21,37 +22,73 @@
         </div>
     </main> <hr>
 
-    <section class="main3">
-        <h3 class="categ">Categories</h3>
-        <div class="category">
-            <h2 class="phones"><p style="padding-left: 35px; padding-top: 60px;"><a href="{% url 'phone' %}">phones</a></p></h2>
-            <h2 class="laptops"><p style="padding-left: 35px; padding-top: 60px;">Laptop</p></h2>
-            <h2 class="tv"><p style="padding-right: 35px; padding-top: 60px;">Televisions</p></h2>
-        </div>
-    </section>
+<section class="container my-5">
+    <h3 class="text-center mb-4">Categories</h3>
 
-    <section class="main4">
-        <h2>
-            <img src="{% static 'images/v39_169.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
-            Great value
-            <p style="font-weight: lighter; font-size: small;">We offer competitive prices on our 100+ product range</p>
-        </h2>
-        <h2>
-            <img src="{% static 'images/v39_172.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
-            Shop with confidence
-            <p style="font-weight: lighter; font-size: small;">Our buyer protection covers your purchase from click to delivery</p>
-        </h2>
-        <h2>
-            <img src="{% static 'images/v39_174.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
-            24/7 Help center
-            <p style="font-weight: lighter; font-size: small;">Round-the-clock assistance for a smooth shopping experience</p>
-        </h2>
-        <h2>
-            <img src="{% static 'images/v39_177.png' %}" alt="Diamond icon" style="height: 40px; margin-left: 40px;">
-            Safe payment
-            <p style="font-weight: lighter; font-size: small;">Pay with the world's most popular and secure payment methods</p>
-        </h2>
-    </section>
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-12 col-md-4">
+            <a href="{% url 'phone' %}" class="text-decoration-none">
+                <!-- ADD category-card HERE -->
+                <div class="card text-center h-100 shadow-sm category-card">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <h5 class="card-title">Phones</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <!-- ADD category-card HERE -->
+            <div class="card text-center h-100 shadow-sm category-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">Laptops</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <!-- ADD category-card HERE -->
+            <div class="card text-center h-100 shadow-sm category-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">Televisions</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <!-- ADD category-card HERE -->
+            <div class="card text-center h-100 shadow-sm category-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">Laptops</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <!-- ADD category-card HERE -->
+            <div class="card text-center h-100 shadow-sm category-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">Laptops</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <!-- ADD category-card HERE -->
+            <div class="card text-center h-100 shadow-sm category-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title">Laptops</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+    
 
 
 {% endblock content %}

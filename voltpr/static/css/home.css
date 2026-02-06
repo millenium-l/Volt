@@ -78,7 +78,7 @@
 .nav {
     display: flex;
     justify-content: right;
-    width: 80%;
+    width: 95%;
 }
 
 /* Icon styling */
@@ -220,4 +220,31 @@ body {
     gap: 50px;
     justify-content: center;
     height: 30vh;
+}
+
+
+.category-card {
+    height: 400px;
+    /* much bigger box */
+    min-width: 250px;
+    /* ensure they don’t shrink too small */
+    font-size: 1.5rem;
+    /* larger text */
+    border-radius: 200px;
+    /* nice rounded corners */
+    padding: 50px;
+    /* more inner spacing */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.category-card .card-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }

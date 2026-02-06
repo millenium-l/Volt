@@ -1,56 +1,57 @@
-{% extends 'base.html' %} {% block content %}
-
+{% extends 'base.html' %}
 {% load static %}
+
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/phone.css' %}">
+<link rel="stylesheet" href="{% static 'css/phone.css' %}">
 {% endblock %}
 
-<body>
-    <main>
-        <div>
-            <img src="{% static 'images/v39_155.png' %}" alt="phone photo" style="height: 80vh; width: 75%; padding: 60px; margin-left: 130px; ">
-        </div>
-    </main>
+{% block content %}
 
-    <main class="main2">
-        
-        <h3 style="margin-bottom: 10px; background-color: white; width: 30%;">Something you may like</h3>
-        
-        <div class="image">
-            {% for product in products %}
-                <div class="product-item">
-                    <!-- to render images from the admin -->
-                    {% if product.image %}
-                <img class="thumbnail" src="{{ product.image.url }}" alt="{{ product.name }}" style="cursor: zoom-in;">
-            {% else %}
-                <img class="thumbnail" src="{% static 'images/default_image.png' %}" alt="Default image">
-            {% endif %}
-                    <a href="{description.html}" style="text-decoration: none;">
-                        <a href="{% url 'description' product.id%}" style="text-decoration: none; color: blue;"><h2>{{ product.name }}</h2> </a><hr>
-                        <p>{{ product.price }}ksh</p>
-                        <!--<button style="background-color: aqua;"><a href="{%  url 'cart'  %}" style="text-decoration: none;">add to cart</a></button>-->
-                        <form action="{% url 'add_to_cart' product.id %}" method="POST">
-                            {% csrf_token %}
-                            <button type="submit">Add to Cart</button>
-                        </form>
+<!-- Hero image -->
+<div class="container my-5">
+    <img src="{% static 'images/v39_155.png' %}"
+         class="img-fluid rounded mx-auto d-block"
+         alt="phone banner">
+</div>
+
+<!-- Products section -->
+<div class="container">
+    <h3 class="mb-4">Something you may like</h3>
+
+    <div class="row g-4" style="background-color: antiquewhite;">
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm">
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                    <img src="{% static 'images/default_image.png' %}" class="card-img-top" alt="Default image">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text fw-bold">{{ product.price }} Ksh</p>
+
+                    <a href="{% url 'description' product.id %}"
+                       class="btn btn-outline-primary mb-2">
+                        View Details
                     </a>
-                 </div>
-            {% endfor %}
+
+                    <form action="{% url 'add_to_cart' product.id %}" method="POST" class="mt-auto">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">
+                            Add to Cart
+                        </button>
+                    </form>
+                </div>
+
+            </div>
         </div>
-        
-        
-    </main>
+        {% endfor %}
+    </div>
+</div>
 
-    <main class="main3">
-        
-        <h2><img src="{% static 'images/v39_169.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Great value <p style="font-weight: lighter; font-size: small;">We offer competitive prices <br>on our 100 plus product range</p> </h2>
-        <h2><img src="{% static 'images/v39_172.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Shop with confidence <p style="font-weight: lighter; font-size: small;">Our buyer protection covers your purchase <br> from click to delivery</p> </h2>
-        <h2><img src="{% static 'images/v39_174.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>24/7 Help center <p style="font-weight: lighter; font-size: small;">Round-the-clock assistance for a smooth shopping  <br>experience</p> </h2>
-        <h2><img src="{% static 'images/v39_177.png' %}" alt="diamond" style="height: 40px; margin-left: 40px;"><br>Safe payment <p style="font-weight: lighter; font-size: small;">pay with the world's most popular <br>and secure payment methods</p> </h2>
-    </main>
-
-    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
-
-</body>
+<script src="{% static 'js/cart.js' %}"></script>
 
 {% endblock content %}

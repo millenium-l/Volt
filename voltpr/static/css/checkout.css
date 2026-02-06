@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
 }
 
@@ -71,13 +71,13 @@
     display: flex;
     align-items: center;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav{
+.nav {
     display: flex;
     justify-content: right;
-    width: 80%;
+    width: 95%;
 }
 
 /* Icon styling */
@@ -112,12 +112,12 @@
     margin-right: 20px;
 }
 
-main{
+main {
     margin: 1px 100px 0px 100px;
     display: flex;
 }
 
-.select{
+.select {
     padding: 2px;
     margin-bottom: 35px;
     display: flex;
@@ -125,8 +125,7 @@ main{
     font-size: large;
 }
 
-.action{
+.action {
     padding: 2px;
     margin-bottom: 40px;
 }
-
