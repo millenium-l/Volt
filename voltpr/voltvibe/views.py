@@ -15,8 +15,10 @@ def index(request):
     return render(request, 'voltvibe/index.html')
 
 def home(request):
-    return render(request, 'voltvibe/home.html')
-
+    categories = Product.CATEGORY_CHOICES
+    return render(request, 'voltvibe/home.html', {
+        'categories': categories
+    })
 
 @login_required
 def profile(request):
@@ -29,20 +31,14 @@ def profile(request):
     return render(request, 'voltvibe/profile.html')
 
 # store
-def phone(request):
-    #retrieves all product instances from the database
-    products = Product.objects.filter(category='phone')
-#Packs the retrieved products into a context dictionary to pass to the template.
-    context = {'products':products}
-    return render(request, 'voltvibe/phone.html', context)
 
-def laptop(request):
-    #retrieves all product instances from the database
-    products = Product.objects.filter(category='laptop')
-    #Packs the retrieved products into a context dictionary to pass to the template.
-    context = {'products':products}
-    return render(request, 'voltvibe/laptop.html', context)
-
+def product_list(request, category):
+    products = Product.objects.filter(category=category)
+    context = {
+        'products': products,
+        'category': category
+    }
+    return render(request, 'voltvibe/products.html', context)
 
 def description(request, product_id):
      # Fetch the description by ID, or show 404 if not found

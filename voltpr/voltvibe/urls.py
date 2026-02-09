@@ -1,11 +1,10 @@
 from django.urls import path
-from .views import index, home, phone,profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, laptop
+from .views import index, home,profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list
 
 urlpatterns = [
     path('index/', index, name='index'),
     path('home/', home, name='home'),
-    path('phone/', phone, name='phone'),
-    path('laptop/', laptop, name='laptop'),
+    path('products/<str:category>/', product_list, name='product_list'),
     path('profile/', profile, name='profile'),
     path('description/<int:product_id>/', description, name='description'),
     path('cart/', cart, name='cart'),
