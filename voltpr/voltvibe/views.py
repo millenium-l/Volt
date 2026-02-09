@@ -36,6 +36,14 @@ def phone(request):
     context = {'products':products}
     return render(request, 'voltvibe/phone.html', context)
 
+def laptop(request):
+    #retrieves all product instances from the database
+    products = Product.objects.all()
+    #Packs the retrieved products into a context dictionary to pass to the template.
+    context = {'products':products}
+    return render(request, 'voltvibe/laptop.html', context)
+
+
 def description(request, product_id):
      # Fetch the description by ID, or show 404 if not found
     product = get_object_or_404(Product, id=product_id)
