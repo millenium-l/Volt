@@ -3,7 +3,11 @@
 
 {% block content %}
 
-<div class="container my-5">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/description.css' %}">
+{% endblock %}
+
+<div class="container my-5 product-container">
 
     <!-- Product main section -->
     <div class="row g-5">

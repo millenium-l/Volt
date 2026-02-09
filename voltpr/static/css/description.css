@@ -1,12 +1,3 @@
-/* Global styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-
 .card img {
     object-fit: cover;
 }
@@ -27,4 +18,10 @@ p {
 
 .product-description ul {
     padding-left: 1.2rem;
+}
+
+.product-container {
+    background-color: #ebe9e6;
+    padding-bottom: 30px;
+    border-radius: 20px;
 }
