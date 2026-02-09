@@ -31,14 +31,14 @@ def profile(request):
 # store
 def phone(request):
     #retrieves all product instances from the database
-    products = Product.objects.all()
-    #Packs the retrieved products into a context dictionary to pass to the template.
+    products = Product.objects.filter(category='phone')
+#Packs the retrieved products into a context dictionary to pass to the template.
     context = {'products':products}
     return render(request, 'voltvibe/phone.html', context)
 
 def laptop(request):
     #retrieves all product instances from the database
-    products = Product.objects.all()
+    products = Product.objects.filter(category='laptop')
     #Packs the retrieved products into a context dictionary to pass to the template.
     context = {'products':products}
     return render(request, 'voltvibe/laptop.html', context)

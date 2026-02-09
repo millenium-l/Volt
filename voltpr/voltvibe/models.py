@@ -36,17 +36,28 @@ class Profile(models.Model):
     
 
 class Product(models.Model):
+
+    CATEGORY_CHOICES = (
+        ('phone', 'Phone'),
+        ('laptop', 'Laptop'),
+    )
+
     name = models.CharField(max_length=200)
-    # ensuring non-negative values we use (default=0.0)
     price = models.FloatField(default=0.0)
-    digital = models.BooleanField(default=False,null=True, blank=True)
-    #we have to pip install pillow to handle images
+    digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-    #str method: Returns the product's name for easy identification.
+
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='phone'
+    )
+
     description = models.TextField(null=True, blank=True)
     detailed_description = models.TextField(null=True, blank=True)
+
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.category})"
     
 
 
