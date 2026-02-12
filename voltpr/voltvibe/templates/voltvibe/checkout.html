@@ -1,40 +1,12 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
-    <title>Checking</title>
-</head>
-<body>
-    <header class="main">
-        <nav class="navbar">
-            <div style="color: green;">
-                <p>Thank you for opting for our services</p>
-            </div>
-            <ul class="menu">
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="support.html">Support</a></li>
-            </ul>
-            
-        </nav>
-        <nav class="navbar2">
-            <span class="icon"></span>
-            <div class="nav">
-                <div class="logo"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'login' %}">login</a></li>
-                </ul>
-            
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'cart' %}">cart</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+{% endblock %}
+
+{% block content %}
+  
 
 <main>
     <div style="width: 75%;">      
@@ -129,3 +101,5 @@
 </main>
 </body>
 </html>
+
+{% endblock content %}

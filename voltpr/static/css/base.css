@@ -1,9 +1,52 @@
+/* Global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Custom heading scale */
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+h4 {
+    font-size: 1.1rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+h6 {
+    font-size: 0.9rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    line-height: 1.3;
+}
+
 /* Main section styling */
 .main {
     width: 100%;
     background: white;
     background-position: center;
     background-size: cover;
+    height: 20vh;
     display: flex;
     flex-direction: column;
 }
@@ -23,8 +66,10 @@
 .menu {
     flex: 1;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     padding-right: 100px;
+    max-width: 100%;
 }
 
 .menu ul {
@@ -68,7 +113,7 @@
 .nav {
     display: flex;
     justify-content: right;
-    width: 80%;
+    width: 95%;
 }
 
 /* Icon styling */
@@ -89,7 +134,7 @@
 }
 
 .logo2 {
-    background: url(../images/v39_142.png)no-repeat center;
+    background: url(../images/v39_142.png) no-repeat center;
     width: 30px;
     height: 30px;
     background-size: contain;
@@ -103,37 +148,21 @@
     margin-right: 20px;
 }
 
-main {
-    padding: 20px;
+.main2 {
+    width: 100%;
 }
 
-.shopping {
-    border: 1px solid rgb(223, 218, 218);
-    padding: 10px;
-    margin-bottom: 30px;
-}
 
-.shp {
+.main4 {
     display: flex;
-    margin-bottom: 20px;
+    gap: 50px;
+    justify-content: center;
+    height: 30vh;
 }
 
-.shop {
-    display: flex;
-    padding: 20px;
-}
-
-.item {
-    border: 1px solid rgb(223, 215, 215);
-    box-shadow: 10px 2px 4px rgb(201, 201, 208);
-}
-
-.items {
-    display: flex;
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
-.item2 {
-    display: flex;
+.footer {
+    margin-top: 80px;
+    padding: 60px 0;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
 }

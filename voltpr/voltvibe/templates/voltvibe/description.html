@@ -1,75 +1,75 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/description.css' %}">
-    <title>Description</title>
-</head>
-<body>
-    <header class="main">
-        <nav class="navbar">
-            <div style="color: green;">
-                <p>Thank you for opting for our services</p> <br>
-                <a href="{% url 'home' %}" style="text-decoration: none;"><h2 style="font-size: 25px;"> VOLT <span style="color: blue;"> VIBE</span> </h2></a>
 
+{% block content %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/description.css' %}">
+{% endblock %}
+
+<div class="container my-5 product-container">
+
+    <!-- Product main section -->
+    <div class="row g-5">
+
+        <!-- Product image -->
+        <div class="col-md-5 col-lg-3" >
+            <div class="card shadow-sm">
+                {% if product.image %}
+                    <img 
+                        src="{{ product.image.url }}" 
+                        class="img-fluid rounded"
+                        alt="{{ product.name }}"
+                    >
+                {% else %}
+                    <img 
+                        src="{% static 'images/default_image.png' %}" 
+                        class="img-fluid rounded"
+                        alt="No image available"
+                    >
+                {% endif %}
             </div>
-            
-        </nav>
-        <nav class="navbar2">
-            <span class="icon"></span>
-            <div class="nav">
-                <div class="logo"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'login' %}">login</a></li>
-                </ul>
-            
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'cart' %}">cart</a></li>
-                </ul>
+        </div>
 
-                <div class="logo2"></div>
-                <ul class="menu2">
-                    <li style="list-style: none;"><a href="{% url 'home' %}">home</a></li>
-                </ul>
+        <!-- Product details -->
+        <div class="col-md-7">
+            <h2 class="fw-bold">{{ product.name }}</h2>
 
-            </div>
-        </nav>
-    </header>
-
-    <main class="main2" style="display: flex;">
-            {% if product.image %}
-
-            <img class="thumbnail" src="{{ product.image.url }}" alt="{{ product.name }}" style="position: relative; width: 30%; ">
-            {% else %}
-            <!--<img class="thumbnail" src="{% static 'images/default_image.png' %}" alt="Default image">-->
+            {% if product.price %}
+                <h4 class="text-success mt-2">
+                    KES {{ product.price }}
+                </h4>
             {% endif %}
 
-        
-        <div class="samsung" style=" position: relative; left: 10%; width: 60%;">
-            <h3 style="font-size: 40px; margin-bottom: 10px;"> {{ product.name }} </h3> 
-            
-            <p style="font-size: small;">{{ product.description }}</p>
+            <p class="text-muted mt-3">
+                {{ product.description|linebreaks }}
+            </p>
 
-            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+            <form action="{% url 'add_to_cart' product.id %}" method="POST" class="mt-4">
                 {% csrf_token %}
-                <button style="background-color: rgb(65, 194, 65); width: 100%; height: 50px; border-radius: 20px; margin-top: 200px; cursor: pointer;" type="submit">add to cart</button>
+                <button 
+                    type="submit" 
+                    class="btn btn-success btn-lg w-100"
+                >
+                    Add to Cart
+                </button>
             </form>
         </div>
-        
-    </main> <hr>
 
-    <main class="main3">
-        <div>
-            <h3 style="margin-bottom: 20px;">product Description</h3>
-            <span class="description">
-                <p>{{ product.detailed_description }}</p>
+    </div>
 
-            </span>
+    <!-- Detailed description -->
+    <div class="card shadow-sm mt-5">
+    <div class="card-body">
+        <h4 class="mb-3">Product Description</h4>
+
+        <div class="product-description">
+            {{ product.detailed_description|linebreaks }}
         </div>
-    </main>
+    </div>
+</div>
+    </div>
 
-</body>
-</html>
+</div>
+
+{% endblock %}

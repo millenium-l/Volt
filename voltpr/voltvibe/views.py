@@ -1,8 +1,12 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import *
 from django.contrib import messages
 from .models import Product, Order, OrderItem
+from datetime import datetime
+from django.utils import timezone
+from django.db.models import Q, Count
 
 
 # takes a request object and returns a responsethat renders the index.html
@@ -11,14 +15,30 @@ def index(request):
     return render(request, 'voltvibe/index.html')
 
 def home(request):
-    return render(request, 'voltvibe/home.html')
+    categories = Product.CATEGORY_CHOICES
+    return render(request, 'voltvibe/home.html', {
+        'categories': categories
+    })
+
+@login_required
+def profile(request):
+    profile = request.user.profile # access the profile linked to the user
+    context = {
+        'title': profile,
+        'profile': profile,
+        'current_year': timezone.now().year,
+    }
+    return render(request, 'voltvibe/profile.html')
+
 # store
-def phone(request):
-    #retrieves all product instances from the database
-    products = Product.objects.all()
-    #Packs the retrieved products into a context dictionary to pass to the template.
-    context = {'products':products}
-    return render(request, 'voltvibe/phone.html', context)
+
+def product_list(request, category):
+    products = Product.objects.filter(category=category)
+    context = {
+        'products': products,
+        'category': category
+    }
+    return render(request, 'voltvibe/products.html', context)
 
 def description(request, product_id):
      # Fetch the description by ID, or show 404 if not found
@@ -58,7 +78,7 @@ def cart(request):
     else:
         items = []
 	#A context dictionary is created to pass the items to the template so as the users can see what we want to display in the browser:
-    context = {'items': items}
+    context = {'items': items, 'order': order}
     #Finally, it renders the 'cart.html' template, providing it with the context:
     return render(request, 'voltvibe/cart.html', context)
 
@@ -82,13 +102,39 @@ def add_to_cart(request, product_id):
         
         # Add the product to the cart (order)
         order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
-        if not created:
-            order_item.quantity += 1  # Increment quantity if already exists
-            order_item.save()
+        
+        if created:
+            order_item.quantity = 1
+        else:
+            order_item.quantity += 1
+
+        order_item.save()
+        
+        
         
         return redirect('cart')
-    else:
-        return redirect('login')  # Redirect non-auth users to login
+    
+
+def increase_quantity(request, item_id):
+    if request.user.is_authenticated:
+        item = get_object_or_404(OrderItem, id=item_id)
+        item.quantity += 1
+        item.save()
+    return redirect('cart')
+
+
+def decrease_quantity(request, item_id):
+    if request.user.is_authenticated:
+        item = get_object_or_404(OrderItem, id=item_id)
+        item.quantity -= 1
+
+        if item.quantity <= 0:
+            item.delete()
+        else:
+            item.save()
+
+    return redirect('cart')
+
 
 def remove_from_cart(request, product_id):
     if request.user.is_authenticated:

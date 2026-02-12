@@ -22,18 +22,42 @@ class Customer(models.Model):
 ''' Product Model: Used to store information about each product available in your store. 
     This model holds details like the product's name, price, whether it's a digital product, and its image. 
 '''
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+     #str method: Returns the profile's user name for easy identification.
+    def __str__(self):
+        return self.user.username
+    
+
 class Product(models.Model):
+
+    CATEGORY_CHOICES = (
+        ('phone', 'Phone'),
+        ('laptop', 'Laptop'),
+    )
+
     name = models.CharField(max_length=200)
-    # ensuring non-negative values we use (default=0.0)
     price = models.FloatField(default=0.0)
-    digital = models.BooleanField(default=False,null=True, blank=True)
-    #we have to pip install pillow to handle images
+    digital = models.BooleanField(default=False, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-    #str method: Returns the product's name for easy identification.
+
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='phone'
+    )
+
     description = models.TextField(null=True, blank=True)
     detailed_description = models.TextField(null=True, blank=True)
+
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.category})"
     
 
 
@@ -54,6 +78,16 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.id)
+    
+    @property
+    def get_cart_total(self):
+        order_items = self.orderitem_set.all()
+        return sum(item.get_total for item in order_items)
+
+    @property
+    def get_cart_items(self):
+        order_items = self.orderitem_set.all()
+        return sum(item.quantity for item in order_items)
 
 ''' OrderItem Model: Stores each individual product that is part of an order. 
     It links to both the Product and Order models, allowing you to specify the quantity of each product ordered 
@@ -61,9 +95,13 @@ class Order(models.Model):
 '''
 # its like the cart since it is an unfinished order
 class OrderItem(models.Model):
-    # A foreign key linking to the Product model. If the product is deleted, the order item will not be deleted; instead, it will be set to null.
-	product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	quantity = models.IntegerField(default=1, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
-    
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=1, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        if self.product:
+            return self.product.price * self.quantity
+        return 0
