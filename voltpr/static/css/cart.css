@@ -32,3 +32,15 @@ main {
 .item2 {
     display: flex;
 }
+
+.contentz {
+    background-color: rgb(243 243 243);
+    height: 80vh;
+    /* fixed height */
+    overflow-y: auto;
+    /* vertical scroll when needed */
+    overflow-x: hidden;
+    /* optional */
+    border: 1px solid #ccc;
+    padding: 15px;
+}
