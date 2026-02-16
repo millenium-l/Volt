@@ -7,6 +7,7 @@ from .models import Product, Order, OrderItem
 from datetime import datetime
 from django.utils import timezone
 from django.db.models import Q, Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # takes a request object and returns a responsethat renders the index.html
@@ -34,9 +35,14 @@ def profile(request):
 
 def product_list(request, category):
     products = Product.objects.filter(category=category)
+
+    paginator = Paginator(products, 8)  
+    page_number = request.GET.get('page') # get the page number from the URL parameters
+    products_page = paginator.get_page(page_number) # get the products for the current page
+    
     context = {
-        'products': products,
-        'category': category
+        'category': category,
+        'products_page': products_page
     }
     return render(request, 'voltvibe/products.html', context)
 
