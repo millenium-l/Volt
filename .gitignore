@@ -1,2 +1,27 @@
-.tenv/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Django
+db.sqlite3
+
+# Environments
+env/
+venv/
+
+# Editor directories
+.idea/
+.vscode/
+
+# Static build
+/staticfiles/
+
+# Logs
+*.log
+
+# Ignore distribution/build artifacts
+build/
+dist/
+*.egg-info/.tenv/
 db.sqlite3
