@@ -12,40 +12,21 @@
 
 .pic {
     width: 100%;
+    /* adjust to your image width */
     overflow: hidden;
+    /* hides overflow outside the box */
     position: relative;
 }
 
 .slides {
     display: flex;
-    width: 300%;
-    /* 3 images */
-    animation: slideAnimation 15s infinite;
+    transition: transform 0.5s ease-in-out;
 }
 
 .slides img {
-    /*width: 33.3333%;*/
-    /* KEY FIX */
+    width: auto;
+    /* same as container width */
     flex-shrink: 0;
-    display: block;
-}
-
-@keyframes slideAnimation {
-    0% {
-        transform: translateX(0);
-    }
-
-    33% {
-        transform: translateX(-33.3333%);
-    }
-
-    66% {
-        transform: translateX(-66.6666%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
 }
 
 /* safety */

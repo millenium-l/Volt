@@ -17,8 +17,15 @@ def index(request):
 
 def home(request):
     categories = Product.CATEGORY_CHOICES
+    products = Product.objects.all()
+    
+    paginator = Paginator(products, 8)  # Show 8 products per page
+    page_number = request.GET.get('page')  # Get the page number from the URL parameters
+    products_page = paginator.get_page(page_number)  # Get the products for the current page
+
     return render(request, 'voltvibe/home.html', {
-        'categories': categories
+        'categories': categories,
+        'products_page': products_page,
     })
 
 @login_required
