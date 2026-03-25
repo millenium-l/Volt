@@ -18,52 +18,53 @@ def index(request):
 def home(request):
     categories = Product.CATEGORY_CHOICES
     products = Product.objects.all()
-    query = request.GET.get('q')
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        ).distinct()
-    
-    paginator = Paginator(products, 8)  # Show 8 products per page
-    page_number = request.GET.get('page')  # Get the page number from the URL parameters
-    products_page = paginator.get_page(page_number)  # Get the products for the current page
-    
-    context = {
+
+    products_page, query = get_filtered_products(request, products)
+
+    return render(request, 'voltvibe/home.html', {
         'categories': categories,
         'products_page': products_page,
         'query': query
-    }
+    })
 
-    return render(request, 'voltvibe/home.html', context)
+#creating a helper function to get the product description by id and render it in the description.html
+def get_filtered_products(request, queryset):
+    query = request.GET.get('q')
+    page = request.GET.get('page', 1)
+
+    if query:
+        queryset = queryset.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+
+    paginator = Paginator(queryset, 8)
+    products_page = paginator.get_page(page)
+
+    return products_page, query
+
 
 # This function handles the search functionality for products. It retrieves the search query from the request, filters the products based on the query, and returns a JSON response containing the rendered HTML for the filtered product list.
 # uses ajax
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 
-def search_products(request):
-    query = request.GET.get('q', '')
-    page = request.GET.get('page', 1)
+def ajax_products(request):
+    category = request.GET.get('category')
 
     products = Product.objects.all()
 
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        ).distinct()
+    if category:
+        products = products.filter(category=category)
 
-    # ✅ THIS WAS MISSING OR WRONG
-    paginator = Paginator(products, 8)
-    products_page = paginator.get_page(page)
+    products_page, query = get_filtered_products(request, products)
 
     html = render_to_string(
-    'voltvibe/partials/product_list.html',
-    {'products': products_page},
-    request=request   # 🔥 THIS LINE FIXES IT
-)
+        'voltvibe/partials/product_list.html',
+        {'products': products_page},
+        request=request
+    )
 
     return JsonResponse({'html': html})
-
 
 
 @login_required
@@ -81,21 +82,14 @@ def profile(request):
 def product_list(request, category):
     products = Product.objects.filter(category=category)
 
-    query = request.GET.get('q')
-    if query:
-        products = products.filter(
-            Q(name__icontains=query) | Q(description__icontains=query)
-        ).distinct()
+    products_page, query = get_filtered_products(request, products)
 
-    paginator = Paginator(products, 8)  
-    page_number = request.GET.get('page') # get the page number from the URL parameters
-    products_page = paginator.get_page(page_number) # get the products for the current page
-    
-    context = {
+    return render(request, 'voltvibe/products.html', {
         'category': category,
-        'products_page': products_page
-    }
-    return render(request, 'voltvibe/products.html', context)
+        'products_page': products_page,
+        'query': query
+    })
+
 
 def description(request, product_id):
      # Fetch the description by ID, or show 404 if not found

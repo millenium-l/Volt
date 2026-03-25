@@ -22,31 +22,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 🔁 Reusable fetch function
   function fetchProducts(url) {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        container.innerHTML = data.html;
-      });
-  }
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("product-container").innerHTML = data.html;
+    });
+}
 
   // 🔍 Search
   form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    fetchProducts(`/search_products/?q=${input.value}`);
-  });
+  e.preventDefault();
+
+  const query = input.value;
+  const category = form.dataset.category || "";
+
+  fetchProducts(`/ajax_products/?q=${query}&category=${category}`);
+});
 
   // 📄 Pagination (THIS IS NEW 🔥)
   document.addEventListener("click", function (e) {
-    if (e.target.closest(".page-link")) {
-      e.preventDefault();
+  if (e.target.closest(".page-link")) {
+    e.preventDefault();
 
-      const link = e.target.closest(".page-link");
+    const link = e.target.closest(".page-link");
+    const url = new URL(link.href);
 
-      const url = new URL(link.href);
-      const page = url.searchParams.get("page");
-      const query = input.value;
+    const page = url.searchParams.get("page");
+    const query = input.value;
+    const category = form.dataset.category || "";
 
-      fetchProducts(`/search_products/?q=${query}&page=${page}`);
-    }
-  });
+    fetchProducts(`/ajax_products/?q=${query}&page=${page}&category=${category}`);
+  }
+});
 });
