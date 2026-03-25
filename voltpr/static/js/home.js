@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
 
       const link = e.target.closest(".page-link");
-      const urlParams = new URLSearchParams(link.getAttribute("href"));
 
-      const page = urlParams.get("page");
+      const url = new URL(link.href);
+      const page = url.searchParams.get("page");
       const query = input.value;
 
       fetchProducts(`/search_products/?q=${query}&page=${page}`);

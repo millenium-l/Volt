@@ -57,9 +57,10 @@ def search_products(request):
     products_page = paginator.get_page(page)
 
     html = render_to_string(
-        'voltvibe/partials/product_list.html',
-        {'products': products_page}
-    )
+    'voltvibe/partials/product_list.html',
+    {'products': products_page},
+    request=request   # 🔥 THIS LINE FIXES IT
+)
 
     return JsonResponse({'html': html})
 
@@ -79,6 +80,12 @@ def profile(request):
 
 def product_list(request, category):
     products = Product.objects.filter(category=category)
+
+    query = request.GET.get('q')
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
 
     paginator = Paginator(products, 8)  
     page_number = request.GET.get('page') # get the page number from the URL parameters
