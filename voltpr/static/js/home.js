@@ -1,5 +1,6 @@
-const slides = document.querySelector('.slides');
-const images = document.querySelectorAll('.slides img');
+// JavaScript for Home Page
+const slides = document.querySelector(".slides");
+const images = document.querySelectorAll(".slides img");
 let index = 0;
 
 function moveSlides() {
@@ -12,3 +13,40 @@ function moveSlides() {
 
 // change image every 3 seconds
 setInterval(moveSlides, 1000);
+
+// Search functionality
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".search");
+  const input = form.querySelector("input[name='q']");
+  const container = document.getElementById("product-container");
+
+  // 🔁 Reusable fetch function
+  function fetchProducts(url) {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        container.innerHTML = data.html;
+      });
+  }
+
+  // 🔍 Search
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    fetchProducts(`/search_products/?q=${input.value}`);
+  });
+
+  // 📄 Pagination (THIS IS NEW 🔥)
+  document.addEventListener("click", function (e) {
+    if (e.target.closest(".page-link")) {
+      e.preventDefault();
+
+      const link = e.target.closest(".page-link");
+      const urlParams = new URLSearchParams(link.getAttribute("href"));
+
+      const page = urlParams.get("page");
+      const query = input.value;
+
+      fetchProducts(`/search_products/?q=${query}&page=${page}`);
+    }
+  });
+});

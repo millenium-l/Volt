@@ -50,15 +50,12 @@ body {
     height: 70vh;
 }
 
-.categ {
-    text-align: center;
-}
 
-.category {
+.content {
     margin-top: 40px;
-    display: flex;
     gap: 70px;
     justify-content: center;
+    min-height: 50vh;
 }
 
 .phones {

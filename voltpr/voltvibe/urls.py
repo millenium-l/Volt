@@ -1,12 +1,17 @@
 from django.urls import path
-from .views import index, home,profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list
+from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, search_products
 
 urlpatterns = [
     path('index/', index, name='index'),
     path('home/', home, name='home'),
+    path('search_products/', search_products, name='search_products'),
     path('products/<str:category>/', product_list, name='product_list'),
     path('profile/', profile, name='profile'),
     path('description/<int:product_id>/', description, name='description'),
+
+
+
+    # Cart and Checkout URLs
     path('cart/', cart, name='cart'),
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('increase-quantity/<int:item_id>/', increase_quantity, name='increase_quantity'),

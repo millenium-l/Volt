@@ -28,7 +28,7 @@
 <body>
     
 
-    <!-- use this after creating a logins page views.py-->
+    <!-- use this after creating a logins page views.py
     {% for message in messages %}
     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
         <strong>Message:</strong> {{ message }}
@@ -37,18 +37,7 @@
         </button>
     </div>
 {% endfor %}
-
-
-<div class="container d-flex justify-content-start align-items-center gap-2 my-2">
-    {% if user.is_authenticated %}
-        <span class="me-2">Hello {{ user.username }}</span>
-        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
-    {% else %}
-        <a href="{% url 'register' %}" class="btn btn-secondary btn-sm">Create account</a>
-        <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Log in</a>
-    {% endif %}
-</div>
-
+-->
 
 
     <header class="main">
@@ -60,6 +49,17 @@
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'index' %}">About</a></li>
                 <li><a href="#">Support</a></li>
+                <li>
+                    <div class="container d-flex justify-content-start align-items-center gap-2 my-2">
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+    {% else %}
+        <a href="{% url 'register' %}" class="btn btn-secondary btn-sm">Create account</a>
+        <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Log in</a>
+    {% endif %}
+</div>
+
+                </li>
             </ul>
         </nav>
         <nav class="navbar2">
@@ -67,7 +67,7 @@
             <div class="nav">
                 <div class="logo"></div>
                 <ul class="menu2">
-                    <li><a href="{% url 'profile' %}">My account</a></li>
+                    <li><a href="{% url 'profile' %}">{{ user.username }}</a></li>
                 </ul>
                 <div class="logo2"></div>
                 <ul class="menu2">

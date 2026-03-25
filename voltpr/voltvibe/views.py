@@ -18,15 +18,52 @@ def index(request):
 def home(request):
     categories = Product.CATEGORY_CHOICES
     products = Product.objects.all()
+    query = request.GET.get('q')
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
     
     paginator = Paginator(products, 8)  # Show 8 products per page
     page_number = request.GET.get('page')  # Get the page number from the URL parameters
     products_page = paginator.get_page(page_number)  # Get the products for the current page
-
-    return render(request, 'voltvibe/home.html', {
+    
+    context = {
         'categories': categories,
         'products_page': products_page,
-    })
+        'query': query
+    }
+
+    return render(request, 'voltvibe/home.html', context)
+
+# This function handles the search functionality for products. It retrieves the search query from the request, filters the products based on the query, and returns a JSON response containing the rendered HTML for the filtered product list.
+# uses ajax
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+def search_products(request):
+    query = request.GET.get('q', '')
+    page = request.GET.get('page', 1)
+
+    products = Product.objects.all()
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+
+    # ✅ THIS WAS MISSING OR WRONG
+    paginator = Paginator(products, 8)
+    products_page = paginator.get_page(page)
+
+    html = render_to_string(
+        'voltvibe/partials/product_list.html',
+        {'products': products_page}
+    )
+
+    return JsonResponse({'html': html})
+
+
 
 @login_required
 def profile(request):
