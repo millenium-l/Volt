@@ -1,18 +1,24 @@
 // JavaScript for Home Page
 const slides = document.querySelector(".slides");
-const images = document.querySelectorAll(".slides img");
-let index = 0;
 
-function moveSlides() {
-  index++;
-  if (index >= images.length) {
-    index = 0; // loop back to first image
+let position = 0;
+let speed = 2.5; // lower = smoother
+
+function animate() {
+  position -= speed;
+
+  // seamless reset
+  if (Math.abs(position) >= slides.scrollWidth / 2) {
+    position = 0;
   }
-  slides.style.transform = `translateX(-${index * 500}px)`;
+
+  slides.style.transform = `translateX(${position}px)`;
+
+  requestAnimationFrame(animate);
 }
 
-// change image every 3 seconds
-setInterval(moveSlides, 1000);
+animate();
+
 
 // Search functionality
 document.addEventListener("DOMContentLoaded", function () {
