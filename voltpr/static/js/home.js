@@ -14,6 +14,9 @@ function moveSlides() {
 // change image every 3 seconds
 setInterval(moveSlides, 1000);
 
+
+
+
 // Search functionality
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".search");

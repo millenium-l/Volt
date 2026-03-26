@@ -15,6 +15,7 @@
   height: 160px;
   overflow: hidden;
   border-radius: 12px 12px 0 0;
+  padding-top: 15px;
 }
 
 .product-image {
@@ -47,49 +48,75 @@
 </style>
 
 
+{% if request.user.is_staff %}
+  <a href="{% url 'create_product' %}" class="btn btn-secondary btn-sm">
+    Create Product
+  </a>
+{% endif %}
 
+<!-- Product List Partial -->
 <div id="product-content">
-   <!-- Products -->
-  <div class="row g-3 justify-content-center">
+  <div class="row g-4 justify-content-center">
     {% for product in products %}
+
     <div class="col-6 col-md-4 col-lg-3">
       
-      <div class="card product-card h-100 border-0 shadow-sm">
+      <!-- Whole Card Clickable -->
+      <a href="{% url 'description' product.id %}" class="text-decoration-none text-dark">
         
-        <!-- Image -->
-        <div class="product-image-wrapper">
-          <img src="{{ product.image.url }}" class="product-image" />
-        </div>
+        <div class="card product-card h-100 border-0 shadow-sm">
 
-        <!-- Body -->
-        <div class="card-body p-2 d-flex flex-column">
+          <!-- Image -->
+          <div class="product-image-wrapper">
+            <img src="{{ product.image.url }}" class="product-image" loading="lazy"/>
+          </div>
 
-          <h6 class="product-title mb-1">
-            {{ product.name|truncatechars:40 }}
-          </h6>
+          <!-- Body -->
+          <div class="card-body p-3 d-flex flex-column">
 
-          <p class="product-desc mb-2">
-            {{ product.description|truncatewords:8 }}
-          </p>
+            <h6 class="product-title mb-1">
+              {{ product.name|truncatechars:40 }}
+            </h6>
 
-          <div class="mt-auto">
-            <p class="product-price mb-2">
-              ${{ product.price }}
+            <p class="product-desc mb-2">
+              {{ product.description|truncatewords:8 }}
             </p>
 
-            <a href="{% url 'description' product.id %}" class="btn btn-sm btn-outline-dark w-100">
-              View
-            </a>
+            <div class="mt-auto">
+              <p class="product-price mb-2 fw-semibold">
+                ${{ product.price }}
+              </p>
+
+              <!-- Buttons -->
+              <div class="d-grid gap-2">
+                <a href="{% url 'add_to_cart' product.id %}" 
+                   class="btn btn-dark btn-sm"
+                   onclick="event.stopPropagation();">
+                  Add to Cart
+                </a>
+
+
+                {% if request.user.is_staff %}
+  <a href="{% url 'update_product' product.id %}" class="btn btn-secondary btn-sm">
+    Update Product
+  </a>
+{% endif %}
+
+              </div>
+            </div>
+
           </div>
 
         </div>
-      </div>
+      </a>
 
     </div>
+
     {% empty %}
-    <p class="text-center">No products found</p>
+    <p class="text-center text-muted">No products found</p>
     {% endfor %}
   </div>
+</div>
    
   <!-- Pagination -->
   <div class="d-flex justify-content-center mt-4">

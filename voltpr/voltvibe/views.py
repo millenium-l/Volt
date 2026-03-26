@@ -1,6 +1,8 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from .forms import ProductCreateForm
 from .models import *
 from django.contrib import messages
 from .models import Product, Order, OrderItem
@@ -8,6 +10,7 @@ from datetime import datetime
 from django.utils import timezone
 from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 # takes a request object and returns a responsethat renders the index.html
@@ -98,6 +101,39 @@ def description(request, product_id):
     context = {'product': product}
     # for users to view
     return render(request, 'voltvibe/description.html', context)
+
+
+# create product view
+@staff_member_required
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ProductCreateForm()
+
+    return render(request, 'voltvibe/create_product.html', {'form': form})
+
+
+# update product view\
+@staff_member_required
+def update_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('description', product_id=product.id)
+    else:
+        form = ProductCreateForm(instance=product)
+
+    return render(request, 'voltvibe/update_product.html', {'form': form, 'product': product})
+
+
+
 
 #for authenticated users
 # enables the users to view the cart

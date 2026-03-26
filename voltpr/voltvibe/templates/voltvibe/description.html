@@ -54,6 +54,13 @@
                     Add to Cart
                 </button>
             </form>
+
+                            {% if request.user.is_staff %}
+  <a href="{% url 'update_product' product.id %}" class="btn btn-secondary btn-sm">
+    Update Product
+  </a>
+{% endif %}
+
         </div>
 
     </div>

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products
+from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products, create_product, update_product
 
 urlpatterns = [
     path('index/', index, name='index'),
@@ -8,6 +8,10 @@ urlpatterns = [
     path('products/<str:category>/', product_list, name='product_list'),
     path('profile/', profile, name='profile'),
     path('description/<int:product_id>/', description, name='description'),
+
+    # Admin crud URLs
+    path('create_product/', create_product, name='create_product'),
+    path('update_product/<int:product_id>/', update_product, name='update_product'),
 
 
 
