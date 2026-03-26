@@ -40,6 +40,7 @@ def get_filtered_products(request, queryset):
             Q(name__icontains=query) | Q(description__icontains=query)
         ).distinct()
 
+    queryset = Product.objects.all().order_by('-id')
     paginator = Paginator(queryset, 8)
     products_page = paginator.get_page(page)
 
