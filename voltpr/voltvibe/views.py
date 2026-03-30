@@ -1,12 +1,16 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from .forms import ProductCreateForm
 from .models import *
 from django.contrib import messages
 from .models import Product, Order, OrderItem
 from datetime import datetime
 from django.utils import timezone
 from django.db.models import Q, Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 # takes a request object and returns a responsethat renders the index.html
@@ -16,9 +20,56 @@ def index(request):
 
 def home(request):
     categories = Product.CATEGORY_CHOICES
+    products = Product.objects.all()
+
+    products_page, query = get_filtered_products(request, products)
+
     return render(request, 'voltvibe/home.html', {
-        'categories': categories
+        'categories': categories,
+        'products_page': products_page,
+        'query': query
     })
+
+#creating a helper function to get the product description by id and render it in the description.html
+def get_filtered_products(request, queryset):
+    query = request.GET.get('q')
+    page = request.GET.get('page', 1)
+
+    if query:
+        queryset = queryset.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        ).distinct()
+
+    queryset = Product.objects.all().order_by('-id')
+    paginator = Paginator(queryset, 8)
+    products_page = paginator.get_page(page)
+
+    return products_page, query
+
+
+# This function handles the search functionality for products. It retrieves the search query from the request, filters the products based on the query, and returns a JSON response containing the rendered HTML for the filtered product list.
+# uses ajax
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+def ajax_products(request):
+    category = request.GET.get('category')
+
+    products = Product.objects.all()
+
+    if category:
+        products = products.filter(category=category)
+
+    products_page, query = get_filtered_products(request, products)
+
+    html = render_to_string(
+        'voltvibe/partials/product_list.html',
+        {'products': products_page},
+        request=request
+    )
+
+    return JsonResponse({'html': html})
+
 
 @login_required
 def profile(request):
@@ -34,11 +85,15 @@ def profile(request):
 
 def product_list(request, category):
     products = Product.objects.filter(category=category)
-    context = {
-        'products': products,
-        'category': category
-    }
-    return render(request, 'voltvibe/products.html', context)
+
+    products_page, query = get_filtered_products(request, products)
+
+    return render(request, 'voltvibe/products.html', {
+        'category': category,
+        'products_page': products_page,
+        'query': query
+    })
+
 
 def description(request, product_id):
      # Fetch the description by ID, or show 404 if not found
@@ -47,6 +102,39 @@ def description(request, product_id):
     context = {'product': product}
     # for users to view
     return render(request, 'voltvibe/description.html', context)
+
+
+# create product view
+@staff_member_required
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ProductCreateForm()
+
+    return render(request, 'voltvibe/create_product.html', {'form': form})
+
+
+# update product view\
+@staff_member_required
+def update_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductCreateForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('description', product_id=product.id)
+    else:
+        form = ProductCreateForm(instance=product)
+
+    return render(request, 'voltvibe/update_product.html', {'form': form, 'product': product})
+
+
+
 
 #for authenticated users
 # enables the users to view the cart

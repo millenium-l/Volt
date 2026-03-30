@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<div class="container my-5">
+<div class="container my-5 contentz">
 
     <!-- Cart header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -37,9 +37,11 @@
     <div class="row align-items-center mb-3">
 
         <div class="col-2">
+            <a href="{% url 'description' item.product.id%}">
             <img src="{{ item.product.image.url }}"
                  class="img-fluid rounded"
                  style="height: 80px; object-fit: contain;">
+                 </a>
         </div>
 
         <div class="col-3">
