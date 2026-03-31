@@ -1,63 +1,186 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">
-    <title>Register</title>
+    <title>Create Your Account | VOLT VIBE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+            --primary-color: #3939f6;
+            --bg-light: #f8f9fa;
+        }
+        body {
+            background-color: #ffffff;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .auth-wrapper {
+            min-height: 100vh;
+        }
+        /* Brand Side */
+        .brand-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+        }
+        /* Form Side */
+        .form-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+        }
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25 dark-grey;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #2a2ad4;
+            transform: translateY(-1px);
+        }
+        .password-toggle {
+            cursor: pointer;
+            z-index: 10;
+        }
+        @media (max-width: 991px) {
+            .brand-section { display: none; }
+        }
+    </style>
 </head>
 <body>
-    <main id="main">
-        <div class="div1">
-            <h2>VOLT VIBE <br>
-                <p style="color: black; font-size: medium; font-weight: lighter; padding: 5px;">The best marketplace for you</p>
-            </h2>
+
+<div class="container-fluid p-0">
+    <div class="row g-0 auth-wrapper">
+        
+        <div class="col-lg-6 brand-section d-none d-lg-flex">
+            <div class="mb-5">
+                <h1 class="display-4 fw-bold">VOLT VIBE</h1>
+                <p class="lead opacity-75">The best marketplace for you. Join thousands of shoppers finding unique energy today.</p>
+            </div>
+            <div class="mt-auto">
+                <small class="opacity-50">© 2026 VOLT VIBE Inc. All rights reserved.</small>
+            </div>
         </div>
 
-        <div class="div2">
-            <div class="button">
-                <form method="post" class="form">
+        <div class="col-lg-6 form-section">
+            <div class="auth-card">
+                <div class="text-center mb-5 d-lg-none">
+                    <h2 class="fw-bold">VOLT VIBE</h2>
+                </div>
+                
+                <h3 class="fw-bold mb-2">Create an account</h3>
+                <p class="text-muted mb-4">Start your shopping journey in seconds.</p>
+
+                {% if form.errors %}
+                <div class="alert alert-danger py-2 small" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Please correct the errors below.
+                </div>
+                {% endif %}
+
+                <form method="post" novalidate>
                     {% csrf_token %}
 
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label small fw-semibold">Username</label>
+                        <input type="text" name="username" id="id_username" 
+                               class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                               placeholder="Enter your username" required autofocus>
+                    </div>
 
-                    {% if form.errors %}
-    <div style="color: red;">
-        {{ form.errors }}
-    </div>
-{% endif %}
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label small fw-semibold">Email address</label>
+                        <input type="email" name="email" id="id_email" 
+                               class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                               placeholder="name@example.com" required>
+                    </div>
 
-                    <!-- i dont use the {{% form.as_p } since i manually write it down in this html temp below so i can customize it -->
-                    
-                    <p>
-                        <input type="text" name="username" maxlength="150" required id="id_username" placeholder="username" autofocus required class="input1">
-                    </p>
-                    
-                    <p>
-                        <input type="email" name="email" maxlength="320" required id="id_email" placeholder="Email" required class="input2">
-                    </p>
-                    
-                    <p>
-                        <input type="password" name="password1" autocomplete="new-password" id="id_password1" placeholder="password" required class="input3">
-                        <span class="helptext" id="id_password1_helptext"></span>
-                    </p>
-                    
-                    <p>
-                        <input type="password" name="password2" autocomplete="new-password" id="id_password2"  placeholder="confirm password" required class="input4">
-                    </p>
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label small fw-semibold">Password</label>
+                        <div class="input-group">
+                            <input type="password" name="password1" id="id_password1" 
+                                   class="form-control border-end-0 {% if form.password1.errors %}is-invalid{% endif %}" 
+                                   placeholder="Create a password" required>
+                            <span class="input-group-text bg-white border-start-0 text-muted password-toggle" onclick="togglePassword('id_password1')">
+                                <i class="bi bi-eye" id="toggleIcon_id_password1"></i>
+                            </span>
+                        </div>
+                    </div>
 
-                    <button type="submit" style="margin-left: 100px; background-color: rgb(57, 57, 246); padding: 15px; width: 40%; border-radius: 10px; cursor: pointer; color: white;">Sign Up</button>
+                    <div class="mb-4">
+                        <label for="id_password2" class="form-label small fw-semibold">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" name="password2" id="id_password2" 
+                                   class="form-control border-end-0 {% if form.password2.errors %}is-invalid{% endif %}" 
+                                   placeholder="Repeat password" required>
+                            <span class="input-group-text bg-white border-start-0 text-muted password-toggle" onclick="togglePassword('id_password2')">
+                                <i class="bi bi-eye" id="toggleIcon_id_password2"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        Sign Up
+                    </button>
+
+                    <div class="position-relative my-4">
+                        <hr>
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">or continue with</span>
+                    </div>
+
+                    <div class="row g-2 mb-4">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-outline-secondary w-100 py-2 small">
+                                <i class="bi bi-google me-2"></i> Google
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-muted small">
+                        Already have an account? 
+                        <a href="{% url 'login' %}" class="text-decoration-none fw-bold text-primary">Sign In</a>
+                    </p>
                 </form>
             </div>
-            <hr>
-
-            <div style="display: flex; margin-top: 60px;">
-                <h4 style="margin-left: 20px; font-weight: lighter;">Already have an account? 
-                    <a href="{% url 'login' %}" style="text-decoration: none; margin-left: 30px; color: blue;">Sign In</a>
-                </h4>
-            </div>
         </div>
-    </main>
+    </div>
+</div>
+
+<script>
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById('toggleIcon_' + inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        }
+    }
+</script>
+
 </body>
 </html>
