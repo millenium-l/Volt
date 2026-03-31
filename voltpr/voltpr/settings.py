@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-r8awu^%+t6wk_y#d@q*k^^ooc8_w)hho8$ijtt$j64su4rq^pt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["mill84715.pythonanywhere.com", "*"]
+
 
 
 # Application definition
@@ -120,6 +121,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / "static", ]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # for enabling us to put images from the admin
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'static/images'

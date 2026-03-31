@@ -6,7 +6,7 @@
 {% endblock %}
 
 
-
+<!-- main page -->
 <body>
     <main class="main2">
         <h2 class="location">Located at Mombasa</h2>
@@ -22,7 +22,8 @@
         </div>
     </main> <hr>
 
-<section class="container my-5">
+    <!-- Categories Section -->
+<section class="container my-5 content">
     <h3 class="text-center mb-4">Categories</h3>
 
     <div class="row g-4 justify-content-center">
@@ -42,10 +43,29 @@
     </div>
 </section>
 
+<!-- Featured Products Section -->
+<section class="container my-5">
+    <h3 class="text-center mb-4">Featured Products</h3>
+    <form method="get" class="search" data-category="">
+        <input type="text" name="q" placeholder="Search products..." value="{{ query|default:'' }}" class="form-control">
+        <button id="search-button" type="submit" class="cn">Search</button>  
+    </form>
 
-
-
+    <div id="product-container">
+        {% include 'voltvibe/partials/product_list.html' with products=products_page %}
+    </div>
     
+    </div>
+
+
+</section>
+
+
+<!-- Extra JavaScript -->
+
+{% block extra_js %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
 
 
 {% endblock content %}

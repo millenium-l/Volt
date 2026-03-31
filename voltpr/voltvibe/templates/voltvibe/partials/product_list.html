@@ -1,0 +1,144 @@
+<style>
+  /* Card */
+.product-card {
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Image */
+.product-image-wrapper {
+  height: 160px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  padding-top: 15px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Text hierarchy */
+.product-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.product-desc {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.product-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Button */
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+}
+</style>
+
+
+{% if request.user.is_staff %}
+  <a href="{% url 'create_product' %}" class="btn btn-secondary btn-sm">
+    Create Product
+  </a>
+{% endif %}
+
+<!-- Product List Partial -->
+<div id="product-content">
+  <div class="row g-4 justify-content-center">
+    {% for product in products %}
+
+    <div class="col-6 col-md-4 col-lg-3">
+      
+      <!-- Whole Card Clickable -->
+      <a href="{% url 'description' product.id %}" class="text-decoration-none text-dark">
+        
+        <div class="card product-card h-100 border-0 shadow-sm">
+
+          <!-- Image -->
+          <div class="product-image-wrapper">
+            <img src="{{ product.image.url }}" class="product-image" loading="lazy"/>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body p-3 d-flex flex-column">
+
+            <h6 class="product-title mb-1">
+              {{ product.name|truncatechars:40 }}
+            </h6>
+
+            <p class="product-desc mb-2">
+              {{ product.description|truncatewords:8 }}
+            </p>
+
+            <div class="mt-auto">
+              <p class="product-price mb-2 fw-semibold">
+                ${{ product.price }}
+              </p>
+
+              <!-- Buttons -->
+              <div class="d-grid gap-2">
+                <a href="{% url 'add_to_cart' product.id %}" 
+                   class="btn btn-dark btn-sm"
+                   onclick="event.stopPropagation();">
+                  Add to Cart
+                </a>
+
+
+                {% if request.user.is_staff %}
+  <a href="{% url 'update_product' product.id %}" class="btn btn-secondary btn-sm">
+    Update Product
+  </a>
+{% endif %}
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </a>
+
+    </div>
+
+    {% empty %}
+    <p class="text-center text-muted">No products found</p>
+    {% endfor %}
+  </div>
+</div>
+   
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+      {% if products.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.previous_page_number }}&q={{ request.GET.q }}">Previous</a>
+      </li>
+      {% endif %} {% for num in products.paginator.page_range %} 
+      {% if products.number == num %}
+      <li class="page-item active">
+        <span class="page-link">{{ num }}</span>
+      </li>
+      {% else %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ num }}&q={{ request.GET.q }}">{{ num }}</a>
+      </li>
+      {% endif %} {% endfor %} {% if products.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ products.next_page_number }}&q={{ request.GET.q }}">Next</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
