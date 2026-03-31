@@ -35,12 +35,15 @@ def get_filtered_products(request, queryset):
     query = request.GET.get('q')
     page = request.GET.get('page', 1)
 
+    # ✅ Apply search filter
     if query:
         queryset = queryset.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         ).distinct()
 
-    queryset = Product.objects.all().order_by('-id')
+    # ✅ KEEP the filtered queryset, just order it
+    queryset = queryset.order_by('-id')
+
     paginator = Paginator(queryset, 8)
     products_page = paginator.get_page(page)
 
