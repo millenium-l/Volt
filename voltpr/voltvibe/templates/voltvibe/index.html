@@ -18,7 +18,13 @@
                 <li><a href="">Home</a></li>
                 <li><a href="">About</a></li>
                 <li><a href="">Services</a></li>
-                <li><a href="{% url 'login' %}">My Profile</a></li>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">My Profile</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Sign Up</a></li>
+                {% endif %}
             </ul>
             <button class="cn"><a href="{% url 'home' %}">Shop Now</a></button>
         </nav>

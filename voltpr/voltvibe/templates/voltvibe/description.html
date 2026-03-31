@@ -1,82 +1,177 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
+{% block title %}{{ product.name }} | VoltVibe{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/description.css' %}">
+<style>
+    .product-main-card {
+        border-radius: 20px;
+        background: #fff;
+        border: none;
+    }
+    .img-zoom-container {
+        background-color: #f9f9f9;
+        border-radius: 15px;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+    }
+    .product-view-img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    .product-view-img:hover {
+        transform: scale(1.05);
+    }
+    .price-tag {
+        font-size: 2rem;
+        color: var(--primary-blue, #3939f6);
+        font-weight: 700;
+    }
+    .badge-availability {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+    }
+    .spec-label {
+        font-weight: 600;
+        width: 150px;
+        color: #6c757d;
+    }
+    .btn-buy {
+        padding: 1rem;
+        font-weight: 700;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+    .btn-buy:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+    }
+    .sticky-details {
+        position: sticky;
+        top: 100px;
+    }
+</style>
 {% endblock %}
 
-<div class="container my-5 product-container">
+{% block content %}
+<div class="container my-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Products</a></li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
 
-    <!-- Product main section -->
     <div class="row g-5">
-
-        <!-- Product image -->
-        <div class="col-md-5 col-lg-3" >
-            <div class="card shadow-sm">
+        <div class="col-lg-6">
+            <div class="img-zoom-container shadow-sm">
                 {% if product.image %}
-                    <img 
-                        src="{{ product.image.url }}" 
-                        class="img-fluid rounded"
-                        alt="{{ product.name }}"
-                    >
+                    <img src="{{ product.image.url }}" class="product-view-img" alt="{{ product.name }}">
                 {% else %}
-                    <img 
-                        src="{% static 'images/default_image.png' %}" 
-                        class="img-fluid rounded"
-                        alt="No image available"
-                    >
+                    <img src="{% static 'images/default_image.png' %}" class="product-view-img" alt="No image">
                 {% endif %}
             </div>
-        </div>
-
-        <!-- Product details -->
-        <div class="col-md-7">
-            <h2 class="fw-bold">{{ product.name }}</h2>
-
-            {% if product.price %}
-                <h4 class="text-success mt-2">
-                    KES {{ product.price }}
-                </h4>
+            
+            {% if request.user.is_staff %}
+            <div class="mt-3 p-3 bg-light rounded border border-warning d-flex justify-content-between align-items-center">
+                <span class="small fw-bold text-dark"><i class="bi bi-shield-lock me-2"></i>Staff Dashboard</span>
+                <a href="{% url 'update_product' product.id %}" class="btn btn-warning btn-sm shadow-sm">
+                   <i class="bi bi-pencil-square"></i> Edit Product
+                </a>
+            </div>
             {% endif %}
-
-            <p class="text-muted mt-3">
-                {{ product.description|linebreaks }}
-            </p>
-
-            <form action="{% url 'add_to_cart' product.id %}" method="POST" class="mt-4">
-                {% csrf_token %}
-                <button 
-                    type="submit" 
-                    class="btn btn-success btn-lg w-100"
-                >
-                    Add to Cart
-                </button>
-            </form>
-
-                            {% if request.user.is_staff %}
-  <a href="{% url 'update_product' product.id %}" class="btn btn-secondary btn-sm">
-    Update Product
-  </a>
-{% endif %}
-
         </div>
 
+        <div class="col-lg-6">
+            <div class="sticky-details">
+                <span class="badge bg-success-subtle text-success badge-availability mb-2">In Stock</span>
+                <h1 class="display-6 fw-bold mb-3">{{ product.name }}</h1>
+                
+                <div class="d-flex align-items-center gap-3 mb-4">
+                    <span class="price-tag">KES {{ product.price }}</span>
+                    <span class="text-muted text-decoration-line-through small">KES {{ product.price|add:"500" }}</span>
+                </div>
+
+                <div class="mb-4 pb-4 border-bottom">
+                    <h6 class="fw-bold text-uppercase small text-muted mb-2">Quick Overview</h6>
+                    <p class="text-secondary lh-lg">
+                        {{ product.description|linebreaks }}
+                    </p>
+                </div>
+
+                <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                    {% csrf_token %}
+                    
+                  
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-success btn-lg btn-buy shadow-sm">
+                            <i class="bi bi-cart-plus me-2"></i> Add to Cart
+                        </button>
+                        <button type="button" class="btn btn-outline-dark btn-lg btn-buy">
+                            <i class="bi bi-heart me-2"></i> Add to Wishlist
+                        </button>
+                    </div>
+                </form>
+
+                <div class="row mt-5 g-3">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-2 small text-muted">
+                            <i class="bi bi-truck fs-4 text-primary"></i>
+                            <span>Fast Mombasa Delivery</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center gap-2 small text-muted">
+                            <i class="bi bi-shield-check fs-4 text-primary"></i>
+                            <span>Genuine Warranty</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Detailed description -->
-    <div class="card shadow-sm mt-5">
-    <div class="card-body">
-        <h4 class="mb-3">Product Description</h4>
-
-        <div class="product-description">
-            {{ product.detailed_description|linebreaks }}
+    <div class="row mt-5 pt-5">
+        <div class="col-lg-8">
+            <ul class="nav nav-tabs border-bottom-0" id="productTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active fw-bold border-0 bg-transparent text-dark px-0 me-4" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button">
+                        Description
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold border-0 bg-transparent text-muted px-0" id="spec-tab" data-bs-toggle="tab" data-bs-target="#spec" type="button">
+                        Specifications
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="tab-content pt-4" id="productTabContent">
+                <div class="tab-pane fade show active" id="desc" role="tabpanel">
+                    <div class="card border-0 bg-white p-4 shadow-sm rounded-4">
+                        <div class="lh-lg text-secondary">
+                            {{ product.detailed_description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="spec" role="tabpanel">
+                    <div class="card border-0 bg-white p-4 shadow-sm rounded-4">
+                        <div>
+                            <p class="text-muted"> {{ product.description|linebreaks }} .</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-    </div>
-
-</div>
-
 {% endblock %}
