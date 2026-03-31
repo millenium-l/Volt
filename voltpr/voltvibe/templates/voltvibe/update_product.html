@@ -145,7 +145,7 @@
                 <h5 class="fw-bold">Are you sure?</h5>
                 <p class="text-muted">This will permanently remove <strong>{{ product.name }}</strong> from the store. This action cannot be undone.</p>
                 <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-danger py-2 fw-bold">Yes, Delete Product</button>
+                  <a href="{% url 'delete_product' product.id %}" class="btn btn-danger py-2 fw-bold">Yes, Delete Product</a>
                     <button type="button" class="btn btn-light py-2 fw-bold" data-bs-dismiss="modal">Keep Product</button>
                 </div>
             </div>
