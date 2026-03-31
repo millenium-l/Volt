@@ -11,7 +11,7 @@ function moveSlides() {
   slides.style.transform = `translateX(-${index * 500}px)`;
 }
 
-// change image every 3 seconds
+// change image every 1 seconds
 setInterval(moveSlides, 1000);
 
 

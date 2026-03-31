@@ -1,82 +1,136 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}\
+{% block title %}Create New Product | VoltVibe{% endblock %}
 
+{% block extra_css %}
 <style>
-    .card {
-  border-radius: 12px;
-}
-
-.form-control, .form-select {
-  border-radius: 8px;
-}
+    .create-card {
+        border-radius: 20px;
+        border: none;
+        background: #ffffff;
+    }
+    .form-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #555;
+    }
+    /* Styling the Django Form Widgets */
+    .form-control, .form-select {
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        transition: all 0.2s ease;
+    }
+    .form-control:focus {
+        border-color: var(--primary-blue, #3939f6);
+        box-shadow: 0 0 0 0.25rem rgba(57, 57, 246, 0.1);
+    }
+    textarea {
+        min-height: 120px;
+    }
+    .image-preview-placeholder {
+        border: 2px dashed #dee2e6;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        background: #f8f9fa;
+        color: #adb5bd;
+    }
 </style>
+{% endblock %}
 
-
+{% block content %}
 <div class="container py-5">
-  <div class="row justify-content-center">
-    
-    <div class="col-12 col-md-8 col-lg-6">
-      
-      <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-body p-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item active">Admin</li>
+                    <li class="breadcrumb-item active" aria-current="page">Create Product</li>
+                </ol>
+            </nav>
 
-          <h4 class="mb-4 fw-semibold text-center">Create Product <hr></h4>
+            <div class="card create-card shadow-lg">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <h3 class="fw-bold">Add New Product</h3>
+                        <p class="text-muted">Fill in the details below to list a new item on VoltVibe.</p>
+                    </div>
 
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
 
-            <!-- Name -->
-            <div class="mb-3">
-              <label for="{{ form.name.id_for_label }}" class="form-label">Product Name</label>
-              {{ form.name }}
+                        {% if form.errors %}
+                        <div class="alert alert-danger rounded-3 small">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            Please correct the errors below.
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-4">
+                            <div class="col-md-7">
+                                <div class="mb-4">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">Product Title</label>
+                                    {{ form.name }}
+                                    {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>{% endif %}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label for="{{ form.price.id_for_label }}" class="form-label">Price (KSH)</label>
+                                        {{ form.price }}
+                                        {% if form.price.errors %}<div class="text-danger small mt-1">{{ form.price.errors.0 }}</div>{% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+                                        {{ form.category }}
+                                        {% if form.category.errors %}<div class="text-danger small mt-1">{{ form.category.errors.0 }}</div>{% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="{{ form.description.id_for_label }}" class="form-label">Short Summary</label>
+                                    {{ form.description }}
+                                    <div class="form-text">A brief snippet for the search results page.</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="mb-4">
+                                    <label class="form-label">Product Media</label>
+                                    <div class="image-preview-placeholder mb-3">
+                                        <i class="bi bi-cloud-arrow-up display-4 d-block mb-2"></i>
+                                        <span class="small">Image will appear after upload</span>
+                                    </div>
+                                    {{ form.image }}
+                                    {% if form.image.errors %}<div class="text-danger small mt-1">{{ form.image.errors.0 }}</div>{% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <label for="{{ form.detailed_description.id_for_label }}" class="form-label">Full Technical Details</label>
+                                {{ form.detailed_description }}
+                                {% if form.detailed_description.errors %}<div class="text-danger small mt-1">{{ form.detailed_description.errors.0 }}</div>{% endif %}
+                            </div>
+                        </div>
+
+                        <hr class="my-4 opacity-25">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'home' %}" class="btn btn-link text-decoration-none text-muted fw-bold">Cancel</a>
+                            <button type="submit" class="btn btn-dark btn-lg px-5 rounded-pill shadow-sm">
+                                <i class="bi bi-check-circle me-2"></i>Publish Product
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
-
-            <!-- Price -->
-            <div class="mb-3">
-              <label for="{{ form.price.id_for_label }}" class="form-label">Price</label>
-              {{ form.price }}
-            </div>
-
-            <!-- Image -->
-            <div class="mb-3">
-              <label for="{{ form.image.id_for_label }}" class="form-label">Product Image</label>
-              {{ form.image }}
-            </div>
-
-            <!-- Category -->
-            <div class="mb-3">
-              <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
-              {{ form.category }}
-            </div>
-
-            <!-- Description -->
-            <div class="mb-3">
-              <label for="{{ form.description.id_for_label }}" class="form-label">Short Description</label>
-              {{ form.description }}
-            </div>
-
-            <!-- Detailed Description -->
-            <div class="mb-4">
-              <label for="{{ form.detailed_description.id_for_label }}" class="form-label">Detailed Description</label>
-              {{ form.detailed_description }}
-            </div>
-
-            <!-- Submit -->
-            <div class="d-grid">
-              <button type="submit" class="btn btn-dark">
-                Create Product
-              </button>
-            </div>
-
-          </form>
-
         </div>
-      </div>
-
     </div>
-
-  </div>
 </div>
 {% endblock content %}
