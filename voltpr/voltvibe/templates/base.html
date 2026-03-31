@@ -67,23 +67,23 @@
             <a class="navbar-brand fw-bold" href="{% url 'home' %}">
                 <span class="text-success">Volt</span>Vibe
             </a>
-
+            <!-- Mobile Cart Icon -->
             <div class="d-lg-none ms-auto me-3">
                 <a href="{% url 'cart' %}" class="btn btn-link position-relative p-1 text-dark">
                     <i class="bi bi-cart3 fs-4"></i>
                 </a>
             </div>
-
+            <!-- Navbar Toggler for Mobile -->
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            <!-- Navbar Links and User Menu -->
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="{% url 'index' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="#categories">Shop</a></li>
                 </ul>
-
+                <!-- User Account Menu -->
                 <div class="d-flex align-items-center gap-3">
                     <a href="{% url 'cart' %}" class="btn btn-link position-relative p-1 text-dark d-none d-lg-block">
                         <i class="bi bi-cart3 fs-4"></i>

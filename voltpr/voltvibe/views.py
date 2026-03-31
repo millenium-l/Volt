@@ -137,6 +137,12 @@ def update_product(request, product_id):
     return render(request, 'voltvibe/update_product.html', {'form': form, 'product': product})
 
 
+@staff_member_required
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    product.delete()
+    return redirect('home')
+
 
 
 #for authenticated users
