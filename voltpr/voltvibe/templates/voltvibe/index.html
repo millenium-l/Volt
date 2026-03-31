@@ -1,101 +1,333 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Home Page</title>
+    <title>VoltVibe | Premium Tech Made Simple in Kenya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --accent: #60a5fa;
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow: hidden;
+        }
+        .snap-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .hero {
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+        }
+        .hero-title { font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; line-height: 1; }
+        .hero-title span { color: var(--primary); text-shadow: 0 0 30px rgba(59, 130, 246, 0.5); }
+
+        .features { background: white; color: var(--dark); }
+        .feat-card {
+            padding: 2rem;
+            border-radius: 20px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
+        .feat-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+
+        .stats { background: var(--dark); }
+        .stat-box h2 { font-size: 4rem; font-weight: 800; color: var(--primary); }
+
+        .platforms { background: #eff6ff; color: var(--dark); }
+        .glass-card {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .cta-section { background: var(--primary); color: white; }
+
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            margin: 15px 0;
+            cursor: pointer;
+            display: block;
+        }
+        .dot.active { background: var(--primary); scale: 1.3; }
+
+        .btn-volt {
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        /* TESTIMONIALS */
+.testimonials { background: #f8fafc; color: var(--dark); }
+
+.testimonial-track {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    /* Optional: use animation for auto-scroll, 
+       or just let users scroll horizontally on mobile */
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.testimonial-card {
+    min-width: 300px;
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    background: #e2e8f0;
+}
+
+.stars { color: #facc15; font-size: 0.8rem; }
+    </style>
 </head>
 <body>
-    <header class="main">
-        <nav class="navbar">
-            <div class="icon">
-                <h2 class="logo"></h2>
-            </div>
-            <ul class="menu">
-                <li><a href="">Home</a></li>
-                <li><a href="">About</a></li>
-                <li><a href="">Services</a></li>
 
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' %}">My Profile</a></li>
-                    {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Sign Up</a></li>
-                {% endif %}
-            </ul>
-            <button class="cn"><a href="{% url 'home' %}">Shop Now</a></button>
-        </nav>
-    </header>
+<div class="nav-dots d-none d-md-block">
+    <div class="dot active" onclick="scrollToSection(0)"></div>
+    <div class="dot" onclick="scrollToSection(1)"></div>
+    <div class="dot" onclick="scrollToSection(2)"></div>
+    <div class="dot" onclick="scrollToSection(3)"></div>
+    <div class="dot" onclick="scrollToSection(4)"></div>
+</div>
 
-    <main>
-        <section class="content">
-            <div class="div">
-                <h1 class="txt">Kenya’s <br><span>Premier</span><br>E-Commerce Platform </h1>
-                <p class="par">Welcome to <i>volt vibe</i> Electronic store.<br>
-                    We specialize in the latest tech products, offering a wide selection of gadgets, 
-                    accessories, and more. Whether you're looking for a new device or expert advice, 
-                    our team is here to help.<br>
-                    If you have any questions or need assistance, feel free to reach out. 
-                    We’re happy to assist you in finding the perfect tech solution!</p>
-            </div>
+<div class="snap-container" id="main-container">
+    
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container text-center reveal">
+            <h6 class="text-uppercase mb-3" style="letter-spacing: 5px;">VoltVibe Electronics • Trusted by Kenyan Tech Lovers</h6>
             
-            <div class="pic"></div>
-        </section>
+            <h1 class="hero-title mb-4">
+                POWER YOUR <span>DIGITAL LIFE</span><br>WITHOUT THE GUESSWORK.
+            </h1>
+            
+            <p class="lead mb-4 opacity-75 mx-auto" style="max-width: 650px;">
+                Discover premium gadgets, verified quality, and lightning-fast delivery — all designed for the modern Kenyan lifestyle.
+            </p>
 
-        <section class="content2">
-            <div class="par2">
-                <h2 class="mobile"> Mobile <p style="font-weight: lighter;">Install the app and start shopping</p> 
-                    <button class="cn">playstore: coming soon</button> <br>
-                    <button class="cn">appstore: coming soon</button></h2>
-                <h2 class="website"> Website <p style="font-weight: lighter;">Shop from the web</p>
-                    <button class="cn"><a href="{% url 'home' %}">shop now</a></button> </h2>
+            <p class="small opacity-50 mb-5">
+                ✔ Pay instantly with M-Pesa &nbsp; • &nbsp; ✔ Fast delivery countrywide &nbsp; • &nbsp; ✔ Genuine products only
+            </p>
+
+            <div class="d-flex justify-content-center gap-3">
+                <button class="btn btn-primary btn-volt shadow-lg" onclick="scrollToSection(1)">Discover What’s Trending</button>
+                <a href="{% url 'home' %}" class="btn btn-outline-light btn-volt">Shop Now</a>
             </div>
-            <!-- Additional content can be added here -->
-             
-        </section>
+        </div>
+    </section>
 
-        <section class="content3">
-            <div>
-                <a href="{% url 'home' %}" style="text-decoration: none;"><h2 style="font-size: 25px;"> VOLT <span style="color: blue;"> VIBE</span> </h2></a>
+    <!-- FEATURES -->
+    <section class="features">
+        <div class="container">
+            <div class="text-center mb-5 reveal">
+                <h2 class="display-4 fw-bold">Why Kenyans Choose VoltVibe</h2>
+                <p class="text-muted">Because great tech should feel effortless, reliable, and worth every shilling.</p>
+            </div>
 
-                <!--<div class="icon">
-                    <h2 class="logo"></h2>
-                </div>-->
-                <div class="con3">
-                    <h2 class="join">Join us <p style="font-size: 15px; font-weight: 100;">start shopping <br> register at the shop <br> register for delivery</p> </h2>
-                
-                    <h2 class="about" style="font-size: larger;">About us <p style="font-size: 15px; font-weight: 200;">register at the store <br> register for delivery</p> </h2>
-                </div>
-                <div>
-                    <h2 class="about-text" style="padding: 20px;">What We Believe :
-                        <p style="font-weight: lighter; margin-left: 20px; font-size: 20px;">
-                            At VoltVibe, we believe in the perfect blend of technology and freshness. <br>
-                            Just as the best produce brings vitality and flavor to your meals, <br>our
-                            electronics enhance your life with cutting-edge innovation and quality.
-                            <br /><br />
-                            We’re committed to delivering:
-                            <br />
-                            Top-Notch Quality: Just like selecting the finest fruits and veggies, <br>we
-                            handpick every gadget to ensure it meets our high standards.
-                            <br /> <br>
-                            Innovation: Our products are at the forefront of technology, designed to
-                            keep you ahead of the curve.
-                            <br /> <br>
-                            Customer Satisfaction: Your experience matters to us, and we strive to <br>
-                            make every interaction as smooth and enjoyable as possible.
-                            <br /><br />
-                            Experience the freshest tech solutions and transform your digital world
-                            with VoltVibe!
+            <div class="row g-4 reveal">
+                <div class="col-md-4">
+                    <div class="feat-card text-center h-100">
+                        <i class="fas fa-truck-fast"></i>
+                        <h4>Fast, Reliable Delivery</h4>
+                        <p class="text-muted small">
+                            Get your order when you need it — same-day in major cities and quick nationwide shipping with real-time updates.
                         </p>
-                    </h2>
+                        <p class="small fw-semibold mt-2">No delays. No surprises.</p>
+                    </div>
                 </div>
 
+                <div class="col-md-4">
+                    <div class="feat-card text-center h-100">
+                        <i class="fas fa-shield-halved"></i>
+                        <h4>100% Genuine Devices</h4>
+                        <p class="text-muted small">
+                            Every product is verified, original, and backed by manufacturer warranty — so you shop with total confidence.
+                        </p>
+                        <p class="small fw-semibold mt-2">What you see is exactly what you get.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="feat-card text-center h-100">
+                        <i class="fas fa-headset"></i>
+                        <h4>Human Support That Helps</h4>
+                        <p class="text-muted small">
+                            Not sure what to pick? Our team actually listens and guides you to the right device — no tech jargon.
+                        </p>
+                        <p class="small fw-semibold mt-2">Real people. Real advice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+        <div class="container reveal text-center">
+            <div class="row g-5">
+                <div class="col-md-4 stat-box">
+                    <h2>15k+</h2>
+                    <p class="text-uppercase opacity-50 small">Orders Delivered Across Kenya</p>
+                </div>
+                <div class="col-md-4 stat-box">
+                    <h2>4.9★</h2>
+                    <p class="text-uppercase opacity-50 small">Customer Satisfaction Rating</p>
+                </div>
+                <div class="col-md-4 stat-box">
+                    <h2>24/7</h2>
+                    <p class="text-uppercase opacity-50 small">Support When You Need It</p>
+                </div>
             </div>
 
-        </section>
-    </main>
+            <p class="mt-5 small opacity-50">
+                Thousands of happy customers trust VoltVibe for their everyday tech.
+            </p>
+        </div>
+    </section>
+
+    <!-- PLATFORM -->
+    <section class="platforms">
+        <div class="container reveal">
+            <div class="glass-card row align-items-center g-5">
+                <div class="col-lg-6">
+                    <h2 class="display-5 fw-bold mb-4">Shop On Your Terms.</h2>
+                    
+                    <p class="text-muted mb-4">
+                        Whether you're on your phone or laptop, VoltVibe is built for speed, simplicity, and seamless checkout — no friction, just flow.
+                    </p>
+
+                    <ul class="list-unstyled mb-4">
+                        <li><i class="fas fa-check text-primary me-2"></i> See what's in stock instantly — no guesswork</li>
+                        <li><i class="fas fa-check text-primary me-2"></i> Secure M-Pesa checkout in seconds</li>
+                        <li><i class="fas fa-check text-primary me-2"></i> Unlock exclusive deals and limited drops</li>
+                    </ul>
+
+                    <p class="small text-muted">
+                        Designed for Kenya. Built for speed.
+                    </p>
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'home' %}" class="btn btn-primary p-3 fw-bold">
+                            START SHOPPING NOW
+                        </a>
+                        <div class="p-3 border rounded-3 opacity-50">
+                            🚀 Mobile App Launching Soon — Early access coming
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-section">
+        <div class="container text-center reveal">
+            <h2 class="display-3 fw-bold mb-4">Upgrade Your Setup Today.</h2>
+            
+            <p class="fs-4 mb-4 opacity-90">
+                From smartphones to smart accessories — everything you need, delivered fast.
+            </p>
+
+            <p class="small mb-5 opacity-75">
+                Secure checkout • M-Pesa ready • Fast delivery across Kenya
+            </p>
+
+            <a href="{% url 'home' %}" class="btn btn-light btn-volt px-5 py-3">
+                Browse the Store
+            </a>
+
+            <div class="mt-5 pt-5 opacity-50 small">
+                VoltVibe Electronics &copy; 2026 | Proudly serving Kenya 🇰🇪
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+function scrollToSection(index) {
+    const container = document.getElementById('main-container');
+    const sections = document.querySelectorAll('section');
+    container.scrollTo({
+        top: sections[index].offsetTop,
+        behavior: 'smooth'
+    });
+}
+
+const observerOptions = { threshold: 0.2 };
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            const index = Array.from(document.querySelectorAll('section')).indexOf(entry.target);
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>

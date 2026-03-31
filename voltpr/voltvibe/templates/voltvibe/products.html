@@ -2,33 +2,148 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/laptop.css' %}">
+<style>
+    /* Hero Banner Styling */
+    .shop-banner {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Search and Filter Bar */
+    .filter-wrapper {
+        background: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        margin-top: -50px; /* Overlaps the banner slightly for a modern look */
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .search-input {
+        border-radius: 10px 0 0 10px !important;
+        border: 1px solid #e2e8f0;
+        padding: 12px 20px;
+    }
+
+    .search-btn {
+        border-radius: 0 10px 10px 0 !important;
+        background: var(--primary-blue, #3b82f6);
+        color: white;
+        border: none;
+        padding: 0 25px;
+        font-weight: 600;
+    }
+
+    .category-pill {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 50px;
+        background: #f1f5f9;
+        color: #64748b;
+        text-decoration: none;
+        margin-right: 10px;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .category-pill:hover, .category-pill.active {
+        background: var(--primary-blue, #3b82f6);
+        color: white;
+    }
+
+    .section-title {
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: #1e293b;
+    }
+    /* Hero Banner Styling - Fully Responsive */
+.shop-banner {
+    width: 100%;
+    /* On mobile, it's 250px tall. On Laptops, it scales up to 450px */
+    height: clamp(250px, 30vh, 450px); 
+    object-fit: cover;
+    /* 'center 30%' ensures the most important part of the tech image 
+       (the gadgets) stays visible even when cropped on wide screens */
+    object-position: center 30%; 
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: height 0.3s ease;
+}
+
+/* On very large screens, prevent it from becoming a 'thin line' */
+@media (min-width: 1200px) {
+    .shop-banner {
+        height: 400px; 
+    }
+}
+</style>
 {% endblock %}
 
 {% block content %}
 
-<!-- Hero image -->
-<div class="container my-5">
-    <img src="{% static 'images/v39_156.png' %}"
-         class="img-fluid rounded mx-auto d-block"
-         alt="phone banner">
+<div class="container mt-4">
+    <div class="position-relative">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2000&auto=format&fit=crop" 
+             class="shop-banner" 
+             alt="VoltVibe Shop Catalog">
+    </div>
 </div>
 
-<!-- Products section -->
-<div class="container">
-    <h3 class="mb-4">Something you may like</h3>
-
-    <form method="get" class="search" data-category="{{ category }}">
-        <input type="text" name="q" placeholder="Search products..." value="{{ query|default:'' }}" class="form-control">
-        <button id="search-button" type="submit" class="cn">Search</button>  
-    </form>
-    
-    <div id="product-container">
-    {% include 'voltvibe/partials/product_list.html' with products=products_page %}
+<div class="container mb-5">
+    <div class="filter-wrapper shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-3 mb-lg-0">
+                <form method="get" action="." class="input-group">
+                    <input type="text" name="q" placeholder="Search for gadgets, accessories..." 
+                           value="{{ query|default:'' }}" class="form-control search-input shadow-none">
+                    <button class="btn search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="col-lg-7 text-lg-end overflow-auto text-nowrap pb-2 pb-lg-0">
+                <a href="?" class="category-pill {% if not current_category %}active{% endif %}">All Items</a>
+                <a href="?category=phones" class="category-pill">Smartphones</a>
+                <a href="?category=laptops" class="category-pill">Laptops</a>
+                <a href="?category=audio" class="category-pill">Audio</a>
+                <a href="?category=accessories" class="category-pill">Accessories</a>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div class="container pb-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h2 class="section-title mb-0">Trending Now</h2>
+            <p class="text-muted small">Handpicked tech for your digital lifestyle.</p>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-sm btn-light border dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                Sort By
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="?sort=newest">Newest Arrivals</a></li>
+                <li><a class="dropdown-item" href="?sort=price_low">Price: Low to High</a></li>
+                <li><a class="dropdown-item" href="?sort=price_high">Price: High to Low</a></li>
+            </ul>
+        </div>
+    </div>
 
-    
+    <div id="product-container" class="reveal">
+        {% include 'voltvibe/partials/product_list.html' with products=products_page %}
+    </div>
+
+    {% if products_page.has_next %}
+    <div class="text-center mt-5">
+        <button class="btn btn-outline-primary px-5 py-2 rounded-pill fw-bold">Load More Products</button>
+    </div>
+    {% endif %}
 </div>
 
 <script src="{% static 'js/home.js' %}"></script>
