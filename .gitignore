@@ -1,2 +1,12 @@
-.tenv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+/.tenv/
+env/
+
+# Database
 db.sqlite3
