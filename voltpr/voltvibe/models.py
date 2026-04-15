@@ -40,6 +40,9 @@ class Product(models.Model):
     CATEGORY_CHOICES = (
         ('phone', 'Phone'),
         ('laptop', 'Laptop'),
+        ('television', 'Television'),
+        ('gaming device', 'Gaming Device'),
+
     )
 
     name = models.CharField(max_length=200)

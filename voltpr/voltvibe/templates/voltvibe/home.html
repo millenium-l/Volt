@@ -7,6 +7,7 @@
 
 {% block content %}
 <section class="hero-slider">
+    <!-- Hero Carousel -->
     <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
     <div class="carousel-item active">
@@ -25,7 +26,7 @@
         <div class="carousel-caption d-none d-md-block text-end">
             <h1 class="display-4 fw-bold">Pure Innovation</h1>
             <p class="lead">Experience sound like never before.</p>
-            <a href="{% url 'home' %}" class="btn btn-outline-light btn-lg px-4">Explore All</a>
+            <a href="#categories" class="btn btn-outline-light btn-lg px-4">Explore All</a>
         </div>
     </div>
 
@@ -35,7 +36,7 @@
         <div class="carousel-caption d-none d-md-block text-center">
             <h1 class="display-4 fw-bold">Smart Living</h1>
             <p class="lead">The latest Apple and Android ecosystems, right here.</p>
-            <a href="{% url 'home' %}" class="btn btn-primary btn-lg px-4">Smart Gadgets</a>
+            <a href="#categories" class="btn btn-primary btn-lg px-4">Smart Gadgets</a>
         </div>
     </div>
 
@@ -57,7 +58,9 @@
         </button>
     </div>
 </section>
+<!-- End of Hero Carousel -->
 
+<!-- Categories Section -->
 <section id="categories" class="container my-5 pt-4">
     <div class="d-flex justify-content-between align-items-end mb-4">
         <div>
@@ -65,7 +68,7 @@
             <p class="text-muted">Find exactly what you're looking for</p>
         </div>
     </div>
-
+    <!-- Category Tiles -->
     <div class="row g-4 justify-content-center">
         {% for value, label in categories %}
         <div class="col-6 col-md-4 col-lg-3">
@@ -84,6 +87,7 @@
     </div>
 </section>
 
+<!-- Featured Products Section -->
 <section class="bg-light py-5">
     <div class="container">
         <div class="row justify-content-center mb-5">
