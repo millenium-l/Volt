@@ -1,0 +1,539 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - VoltVibe{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Custom styles for grand design */
+.hero-section {
+    background: linear-gradient(135deg, rgba(57, 57, 246, 0.9) 0%, rgba(25, 135, 84, 0.8) 100%),
+                url('{% static "images/shopping.webp" %}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+}
+
+.icon-quality { background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; }
+.icon-innovation { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: white; }
+.icon-satisfaction { background: linear-gradient(45deg, #45b7d1, #96c93d); color: white; }
+.icon-delivery { background: linear-gradient(45deg, #f093fb, #f5576c); color: white; }
+
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    position: relative;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{% static "images/Vibe.png" %}');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.stats-content {
+    position: relative;
+    z-index: 2;
+}
+
+.counter {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin: 1rem 0;
+}
+
+.testimonial-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 4rem;
+    color: rgba(57, 57, 246, 0.2);
+    font-family: Georgia, serif;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{% static "images/download.webp" %}');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 2;
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.floating-animation {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 80vh;
+        background-attachment: scroll;
+    }
+
+    .counter {
+        font-size: 2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center">
+    <div class="container hero-content">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-7">
+                <div class="glass-card p-4 mb-4">
+                    <h1 class="display-3 fw-bold mb-4 text-white">
+                        Welcome to <span class="text-warning">VoltVibe</span>
+                    </h1>
+                    <p class="lead mb-4 text-white-50">
+                        Kenya's Premier E-Commerce Platform for Cutting-Edge Technology.
+                        Discover the latest gadgets, electronics, and innovative solutions
+                        that transform your digital lifestyle.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{% url 'home' %}" class="btn btn-warning btn-lg px-4 py-3 pulse-animation">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>Shop Now
+                        </a>
+                        {% if not user.is_authenticated %}
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="bi bi-person-circle me-2"></i>Get Started
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="floating-animation">
+                    <img src="{% static 'images/samsung-galaxy-a73-5g.jpg' %}" alt="Premium Tech Products"
+                         class="img-fluid rounded-3 shadow-lg" style="max-height: 500px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-primary mb-3">Why Choose VoltVibe?</h2>
+                <p class="lead text-muted">Experience excellence in every aspect of your shopping journey</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-quality">
+                        <i class="bi bi-award-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Premium Quality</h5>
+                    <p class="text-muted">Handpicked products from trusted brands ensuring top-notch quality and reliability.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-innovation">
+                        <i class="bi bi-lightbulb-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Latest Innovation</h5>
+                    <p class="text-muted">Stay ahead with cutting-edge technology and the newest gadgets in the market.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-satisfaction">
+                        <i class="bi bi-heart-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Customer First</h5>
+                    <p class="text-muted">Your satisfaction is our priority with dedicated support and exceptional service.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-delivery">
+                        <i class="bi bi-truck-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Fast Delivery</h5>
+                    <p class="text-muted">Swift and secure delivery across Kenya with real-time tracking updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-5">
+    <div class="container stats-content">
+        <div class="row text-center">
+            <div class="col-12 mb-5">
+                <h2 class="display-4 fw-bold mb-4">Our Impact</h2>
+                <p class="lead mb-5">Numbers that speak for themselves</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="counter">10K+</div>
+                <h5 class="mt-3">Happy Customers</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="counter">500+</div>
+                <h5 class="mt-3">Products Available</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="counter">50+</div>
+                <h5 class="mt-3">Partner Brands</h5>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="counter">24/7</div>
+                <h5 class="mt-3">Customer Support</h5>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                <h2 class="display-4 fw-bold text-primary mb-4">
+                    About <span class="text-warning">VoltVibe</span>
+                </h2>
+                <p class="lead text-muted mb-4">
+                    We're more than just an electronics store. We're your technology partner,
+                    committed to bringing you the freshest innovations and expert guidance
+                    for all your digital needs.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                            <span>Curated selection of premium electronics</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                            <span>Expert technical support and consultation</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                            <span>Fast, reliable delivery across Kenya</span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-success me-3 fs-4"></i>
+                            <span>Warranty support and after-sales service</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="{% static 'images/macbook_neo.jpg' %}" alt="Premium Tech Products"
+                         class="img-fluid rounded-3 shadow-lg">
+                    <div class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-2 rounded-pill fw-bold">
+                        <i class="bi bi-star-fill me-1"></i>Premium
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-primary mb-3">What Our Customers Say</h2>
+                <p class="lead text-muted">Real experiences from real customers</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="testimonial-card">
+                    <p class="mb-3">"VoltVibe transformed my home office setup. The quality of products and service exceeded my expectations!"</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Sarah Wanjiku</h6>
+                            <small class="text-muted">Nairobi, Kenya</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+                <div class="testimonial-card">
+                    <p class="mb-3">"Fast delivery and excellent customer support. Found exactly what I needed for my business."</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">David Kiprop</h6>
+                            <small class="text-muted">Eldoret, Kenya</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+                <div class="testimonial-card">
+                    <p class="mb-3">"The best online electronics store in Kenya. Quality products at competitive prices!"</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0 fw-bold">Grace Achieng</h6>
+                            <small class="text-muted">Kisumu, Kenya</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mobile App Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4">
+                <h2 class="display-5 fw-bold text-primary mb-4">Shop on the Go</h2>
+                <p class="lead text-muted mb-4">
+                    Download our mobile app for a seamless shopping experience.
+                    Browse products, track orders, and get exclusive deals right from your phone.
+                </p>
+
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <button class="btn btn-dark btn-lg px-4 py-3 rounded-pill">
+                        <i class="bi bi-apple me-2"></i>
+                        <div class="text-start">
+                            <small>Download on the</small>
+                            <div class="fw-bold">App Store</div>
+                        </div>
+                    </button>
+
+                    <button class="btn btn-success btn-lg px-4 py-3 rounded-pill">
+                        <i class="bi bi-google-play me-2"></i>
+                        <div class="text-start">
+                            <small>Get it on</small>
+                            <div class="fw-bold">Google Play</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-6 text-center">
+                <div class="position-relative">
+                    <img src="{% static 'images/download.jpeg' %}" alt="Mobile App"
+                         class="img-fluid rounded-3 shadow-lg" style="max-height: 400px;">
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x bg-primary text-white px-4 py-2 rounded-pill">
+                        <i class="bi bi-qr-code me-2"></i>Scan to Download
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section py-5">
+    <div class="container cta-content text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-4 fw-bold text-primary mb-4">Ready to Transform Your Tech Experience?</h2>
+                <p class="lead mb-5 text-muted">
+                    Join thousands of satisfied customers and discover why VoltVibe is Kenya's
+                    trusted destination for premium electronics and exceptional service.
+                </p>
+
+                <div class="d-flex flex-column flex-lg-row gap-3 justify-content-center">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill pulse-animation">
+                        <i class="bi bi-shop me-2"></i>Start Shopping Now
+                    </a>
+                    <a href="#contact" class="btn btn-outline-primary btn-lg px-5 py-3 rounded-pill">
+                        <i class="bi bi-telephone me-2"></i>Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-primary mb-3">Get In Touch</h2>
+                <p class="lead text-muted">Have questions? We're here to help!</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-delivery">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Visit Us</h5>
+                    <p class="text-muted">Mombasa, Kenya<br>Premium Electronics Hub</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-satisfaction">
+                        <i class="bi bi-telephone-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Call Us</h5>
+                    <p class="text-muted">+254 XXX XXX XXX<br>Mon-Fri 9AM-6PM</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card h-100 text-center p-4">
+                    <div class="feature-icon icon-innovation">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-primary mb-3">Email Us</h5>
+                    <p class="text-muted">support@voltvibe.co.ke<br>We reply within 24 hours</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

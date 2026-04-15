@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products, create_product, update_product, delete_product
+from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products, create_product, update_product, delete_product, inspiration
 
 urlpatterns = [
     path('index/', index, name='index'),
     path('home/', home, name='home'),
+    path('inspiration/', inspiration, name='inspiration'),
     path('ajax_products/', ajax_products, name='ajax_products'),
     path('products/<str:category>/', product_list, name='product_list'),
     path('profile/', profile, name='profile'),
