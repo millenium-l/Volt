@@ -74,6 +74,7 @@
   }
 </style>
 
+<!-- Product List Section -->
 <div id="product-content">
   {% if request.user.is_staff %}
   <div class="mb-4 text-end">
@@ -83,6 +84,7 @@
   </div>
   {% endif %}
 
+<!-- Product Grid -->
   <div class="row g-3 g-md-4 justify-content-center">
     {% for product in products %}
     <div class="col-6 col-md-4 col-lg-3">
@@ -94,12 +96,21 @@
         {% endif %}
 
         <a href="{% url 'description' product.id %}" class="product-image-wrapper text-decoration-none">
+          {% if product.image %}
           <img src="{{ product.image.url }}" 
                class="product-image" 
                alt="{{ product.name }}"
                loading="lazy" />
+          {% else %}
+          <img src="/static/default.jpg" 
+          class="product-image" 
+          alt="No image available"
+          loading="lazy" />
+          {% endif %}
         </a>
+        
 
+        <!-- Card Body -->
         <div class="card-body p-3 d-flex flex-column">
           <a href="{% url 'description' product.id %}" class="text-decoration-none text-dark">
             <h6 class="product-title mb-2">
