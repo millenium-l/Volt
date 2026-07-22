@@ -142,9 +142,9 @@ LOGIN_URL = '/login/'
 # mpesa
 # settings.py
 
-MPESA_CONSUMER_KEY = "f4c1g9WptfCQU84A6gtwUij2xKjFgrIhaFgpFUAsdiYGqs66"
-MPESA_CONSUMER_SECRET = "t0IxBUa7RJDhMvXKES1Gk9pANJEQPTDpjQZwgYTuLOTktqtXdmnndZGMiiyB2e9I"
-MPESA_SHORTCODE = "174379"  # Sandbox paybill
-MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-MPESA_CALLBACK_URL = "https://yourdomain.com/api/mpesa/callback/"
-MPESA_BASE_URL = "https://sandbox.safaricom.co.ke"
+MPESA_CONSUMER_KEY = ""
+MPESA_CONSUMER_SECRET = ""
+MPESA_SHORTCODE = ""  # Sandbox paybill
+MPESA_PASSKEY = ""
+MPESA_CALLBACK_URL = ""
+MPESA_BASE_URL = ""
