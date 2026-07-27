@@ -11,7 +11,10 @@ from django.utils import timezone
 from django.db.models import Q, Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.admin.views.decorators import staff_member_required
-
+from django.http import JsonResponse
+from .mpesa import initiate_stk_push, normalize_phone_number
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 # takes a request object and returns a responsethat renders the index.html
 # Create your views here.
@@ -241,34 +244,104 @@ def remove_from_cart(request, product_id):
         return redirect('login')  # Redirect non-auth users to login
 
 def checkout(request):
-    if request.user.is_authenticated:
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    try:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    except Customer.DoesNotExist:
+        customer = Customer.objects.create(user=request.user, email=request.user.email or f'{request.user.username}@example.com')
 
-        # Calculate the total sum of the order
-        total_sum = sum(item.product.price * item.quantity for item in order.orderitem_set.all())
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    total_sum = order.get_cart_total
 
-        if request.method == 'POST':
-            # Get the name and phone number from the POST request
-            name = request.POST.get('name')
-            phone_number = request.POST.get('phone_number')
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        phone_number = request.POST.get('phone_number')
+        delivery_option = request.POST.get('delivery_option', 'collection')
+        pickup_location = request.POST.get('pickup_location', '')
 
-            # Validate the inputs
-            if not name or not phone_number:
-                messages.error(request, 'Both name and phone number are required.')
-            else:
-                # Save the data to the order model or a separate model if necessary
-                order.customer_name = name
-                order.customer_phone = phone_number
+        if not name or not phone_number:
+            messages.error(request, 'Both name and phone number are required.')
+        elif not order.orderitem_set.exists():
+            messages.error(request, 'Your cart is empty.')
+        else:
+            normalized_phone = normalize_phone_number(phone_number)
+            order.customer_name = name
+            order.customer_phone = normalized_phone
+            order.delivery_option = delivery_option
+            order.pickup_location = pickup_location
+            order.payment_status = 'pending'
+            order.save()
+
+            try:
+                result = initiate_stk_push(
+                    order=order,
+                    amount=total_sum,
+                    phone_number=normalized_phone,
+                    account_reference=f'order-{order.id}',
+                    transaction_desc=f'VoltVibe order {order.id}',
+                )
+            except Exception as exc:
+                order.payment_status = 'failed'
                 order.save()
+                messages.error(request, f'MPesa request failed: {exc}')
+                return render(request, 'voltvibe/checkout.html', {'order': order, 'total_sum': total_sum})
 
-                # Proceed to payment (for now, just a success message)
-                return redirect('payment')  # Redirect to payment page (or your payment logic here)
+            checkout_request_id = result.get('CheckoutRequestID') or result.get('MerchantRequestID')
+            response_code = result.get('ResponseCode')
+            response_desc = result.get('ResponseDescription') or 'Please complete the STK prompt on your phone.'
 
-        context = {
-            'order': order,
-            'total_sum': total_sum,
-        }
-        return render(request, 'voltvibe/checkout.html', context)
+            order.transaction_id = checkout_request_id
+            if response_code == '0':
+                order.payment_status = 'pending'
+                order.save()
+                messages.success(request, response_desc)
+                return redirect('cart')
+
+            order.payment_status = 'failed'
+            order.save()
+            messages.error(request, response_desc)
+
+    context = {
+        'order': order,
+        'total_sum': total_sum,
+    }
+    return render(request, 'voltvibe/checkout.html', context)
+
+@csrf_exempt
+def mpesa_callback(request):
+    data = json.loads(request.body)
+    body = payload.get('Body') if payload else None
+    if body:
+        callback = body
     else:
-        return redirect('login')  # Redirect non-auth users to login
+        callback = request.body
+
+    if isinstance(callback, bytes):
+        callback = callback.decode('utf-8')
+
+    checkout_request_id = None
+    result_code = None
+    result_desc = None
+
+    if isinstance(callback, dict):
+        checkout_request_id = callback.get('CheckoutRequestID')
+        result_code = callback.get('ResultCode')
+        result_desc = callback.get('ResultDesc')
+    else:
+        checkout_request_id = request.POST.get('CheckoutRequestID')
+        result_code = request.POST.get('ResultCode')
+        result_desc = request.POST.get('ResultDesc')
+
+    if checkout_request_id:
+        order = Order.objects.filter(transaction_id=checkout_request_id).first()
+        if order:
+            if result_code == '0':
+                order.complete = True
+                order.payment_status = 'paid'
+            else:
+                order.payment_status = 'failed'
+            order.save()
+
+    return JsonResponse({'ResultCode': 0, 'ResultDesc': 'Accepted'})

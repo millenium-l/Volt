@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products, create_product, update_product, delete_product, inspiration
+from .views import index, home, profile, description, cart, add_to_cart, remove_from_cart, checkout, increase_quantity, decrease_quantity, product_list, ajax_products, create_product, update_product, delete_product, inspiration, mpesa_callback
 
 urlpatterns = [
     path('index/', index, name='index'),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('decrease-quantity/<int:item_id>/', decrease_quantity, name='decrease_quantity'),
     path('remove-from-cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
     path('checkout/', checkout, name='checkout'),
+    path('mpesa/callback/', mpesa_callback, name='mpesa_callback'),
 ]

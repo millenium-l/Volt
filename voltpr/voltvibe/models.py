@@ -70,14 +70,24 @@ class Product(models.Model):
 '''
 # it is a finished order
 class Order(models.Model):
-    #a foreign key linking to the Customer model. If the customer is deleted, the order will not be deleted; instead, the customer field will be set to null.
+    PAYMENT_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    )
+
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
-    #a datetime field that automatically records when the order is created.
+    customer_name = models.CharField(max_length=200, null=True, blank=True)
+    customer_phone = models.CharField(max_length=30, null=True, blank=True)
+    delivery_option = models.CharField(max_length=50, null=True, blank=True)
+    pickup_location = models.CharField(max_length=100, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
-    #a boolean field indicating whether the order is completed.
     complete = models.BooleanField(default=False)
-    #a character field for storing the transaction ID, allowing null values.
-    transaction_id = models.CharField(max_length=100, null=True)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    customer_name = models.CharField(max_length=200, null=True)
+    customer_phone = models.CharField(max_length=20, null=True)
+    payment_status = models.CharField(max_length=20, null=True, default='pending')
 
     def __str__(self):
         return str(self.id)
