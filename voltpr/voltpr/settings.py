@@ -10,17 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / '.env')
 
-# Quick-start development settings - unsuitable for production
+
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r8awu^%+t6wk_y#d@q*k^^ooc8_w)hho8$ijtt$j64su4rq^pt'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -142,9 +146,9 @@ LOGIN_URL = '/login/'
 # mpesa
 # settings.py
 
-MPESA_CONSUMER_KEY = "f4c1g9WptfCQU84A6gtwUij2xKjFgrIhaFgpFUAsdiYGqs66"
-MPESA_CONSUMER_SECRET = "t0IxBUa7RJDhMvXKES1Gk9pANJEQPTDpjQZwgYTuLOTktqtXdmnndZGMiiyB2e9I"
-MPESA_SHORTCODE = "174379"  # Sandbox paybill
-MPESA_PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-MPESA_CALLBACK_URL = "https://yourdomain.com/api/mpesa/callback/"
-MPESA_BASE_URL = "https://sandbox.safaricom.co.ke"
+MPESA_CONSUMER_KEY = os.environ.get('MPESA_CONSUMER_KEY', '')
+MPESA_CONSUMER_SECRET = os.environ.get('MPESA_CONSUMER_SECRET', '')
+MPESA_SHORTCODE = os.environ.get('MPESA_SHORTCODE', '')  # Sandbox paybill
+MPESA_PASSKEY = os.environ.get('MPESA_PASSKEY', '')
+MPESA_CALLBACK_URL = os.environ.get('MPESA_CALLBACK_URL', 'https://yourdomain.com/api/mpesa/callback/')
+MPESA_BASE_URL = os.environ.get('MPESA_BASE_URL', 'https://sandbox.safaricom.co.ke')

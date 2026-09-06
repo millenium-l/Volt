@@ -64,6 +64,12 @@
     {% if items %}
     <div class="row g-4">
         <div class="col-lg-8">
+            # create a button to clear the cart with a confirmation prompt
+            <button link="{#}" class="btn btn-danger mb-3" onclick="return confirm('Are you sure you want to clear the cart?');">
+                <i class="bi bi-trash me-2"></i> Clear Cart
+
+
+            </button>
             <div class="card border-0 shadow-sm p-3 rounded-4">
                 {% for item in items %}
                 <div class="row align-items-center py-3 {% if not forloop.last %}border-bottom{% endif %} px-2">

@@ -23,7 +23,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lambda request: redirect('login', permanent=False)),  # Redirect root to login
+    path('', lambda request: redirect('index', permanent=False)),  # Redirect root to index
     path('auth/', include('accounts.urls')),
     path('app/', include('voltvibe.urls')),
     path('', include('voltvibe.urls')),
