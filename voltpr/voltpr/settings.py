@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'voltvibe',
     'accounts',
+    'payments',
     'django_bootstrap5',
 ]
 
