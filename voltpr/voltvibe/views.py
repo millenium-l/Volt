@@ -259,13 +259,11 @@ def checkout(request):
             if not name or not phone_number:
                 messages.error(request, 'Both name and phone number are required.')
             else:
-                # Save the data to the order model or a separate model if necessary
-                order.customer_name = name
-                order.customer_phone = phone_number
-                order.save()
-
-                # Proceed to payment (for now, just a success message)
-                return redirect('payment')  # Redirect to payment page (or your payment logic here)
+                request.session['payment_details'] = {
+                    'name': name,
+                    'phone_number': phone_number,
+                }
+                return redirect('payments:payment_page', order_id=order.id)
 
         context = {
             'order': order,
