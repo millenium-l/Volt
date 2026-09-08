@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('index', permanent=False)),  # Redirect root to index
     path('auth/', include('accounts.urls')),
+    path('payments/', include('payments.urls')),
     path('app/', include('voltvibe.urls')),
     path('', include('voltvibe.urls')),
 ]
