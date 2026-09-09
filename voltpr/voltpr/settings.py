@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["mill84715.pythonanywhere.com", "*"]
+ALLOWED_HOSTS = ["mill84715.pythonanywhere.com", "*", 'lint-walk-comma.ngrok-free.dev ']
 
 
 
