@@ -2,7 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-
+from django.views.decorators.csrf import csrf_exempt
 from .mpesa import initiate_stk_push
 
 
@@ -77,3 +77,27 @@ def stk_push(request):
             },
             status=500,
         )
+
+
+@csrf_exempt
+@require_POST
+def mpesa_callback(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {
+                "error": "Invalid JSON."
+            },
+            status=400,
+        )
+
+    print("M-Pesa callback received:")
+    print(json.dumps(data, indent=4))
+
+    return JsonResponse(
+        {
+            "ResultCode": 0,
+            "ResultDesc": "Callback received successfully.",
+        }
+    )
