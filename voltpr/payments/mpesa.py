@@ -53,3 +53,45 @@ def generate_stk_password(timestamp):
     ).decode("utf-8")
 
     return password
+
+def initiate_stk_push(
+    phone_number,
+    amount,
+    account_reference,
+    transaction_description,
+):
+    access_token = get_access_token()
+
+    timestamp = generate_timestamp()
+
+    password = generate_stk_password(timestamp)
+
+    payload = {
+        "BusinessShortCode": settings.MPESA_SHORTCODE,
+        "Password": password,
+        "Timestamp": timestamp,
+        "TransactionType": "CustomerPayBillOnline",
+        "Amount": amount,
+        "PartyA": phone_number,
+        "PartyB": settings.MPESA_SHORTCODE,
+        "PhoneNumber": phone_number,
+        "CallBackURL": settings.MPESA_CALLBACK_URL,
+        "AccountReference": account_reference,
+        "TransactionDesc": transaction_description,
+    }
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    response = requests.post(
+        MPESA_STK_PUSH_URL,
+        json=payload,
+        headers=headers,
+        timeout=30,
+    )
+
+    response.raise_for_status()
+
+    return response.json()
