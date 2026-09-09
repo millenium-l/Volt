@@ -1,97 +1,79 @@
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
 import json
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods, require_POST
 
-from voltvibe.models import Order
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 
 from .mpesa import initiate_stk_push
-from .models import Payment
 
 
-def normalize_phone(phone_number):
-    phone_number = phone_number.replace(' ', '').replace('-', '')
-    if phone_number.startswith('07') or phone_number.startswith('01'):
-        return f'254{phone_number[1:]}'
-    if phone_number.startswith('+254'):
-        return phone_number[1:]
-    return phone_number
-
-
-@login_required
-@require_http_methods(['GET'])
-def payment_page(request, order_id):
-    order = get_object_or_404(Order, id=order_id, customer__user=request.user, complete=False)
-    return render(request, 'payments/payment.html', {'order': order, 'total': round(order.get_cart_total)})
-
-
-@login_required
 @require_POST
-def initiate_payment(request, order_id):
-    order = get_object_or_404(Order, id=order_id, customer__user=request.user, complete=False)
-    details = request.session.pop('payment_details', {})
-    name = details.get('name')
-    phone_number = details.get('phone_number')
-
-    if not name or not phone_number:
-        return JsonResponse({'error': 'Checkout details are missing.'}, status=400)
-
-    phone_number = normalize_phone(phone_number)
-    payment = Payment.objects.create(
-        order=order,
-        customer_name=name,
-        phone_number=phone_number,
-        amount=round(order.get_cart_total),
-    )
-
+def stk_push(request):
     try:
-        result = initiate_stk_push(
-            phone_number,
-            payment.amount,
-            f'ORDER-{order.id}',
-            f'VoltVibe order {order.id}',
-        )
-    except Exception as error:
-        payment.status = Payment.STATUS_FAILED
-        payment.result_description = str(error)
-        payment.save(update_fields=['status', 'result_description', 'updated_at'])
-        return JsonResponse({'error': 'Unable to start M-Pesa payment.'}, status=502)
-
-    payment.merchant_request_id = result.get('MerchantRequestID', '')
-    payment.checkout_request_id = result.get('CheckoutRequestID', '')
-    payment.result_description = result.get('ResponseDescription', '')
-    payment.save(update_fields=[
-        'merchant_request_id', 'checkout_request_id', 'result_description', 'updated_at',
-    ])
-    return JsonResponse({'message': result.get('CustomerMessage', 'Check your phone to complete payment.')})
-
-
-@csrf_exempt
-@require_POST
-def mpesa_callback(request):
-    try:
-        payload = json.loads(request.body or '{}')
+        data = json.loads(request.body)
     except json.JSONDecodeError:
-        return JsonResponse({'ResultCode': 1, 'ResultDesc': 'Invalid JSON'}, status=400)
-    callback = payload.get('Body', {}).get('stkCallback', {})
-    checkout_request_id = callback.get('CheckoutRequestID')
-    payment = Payment.objects.filter(checkout_request_id=checkout_request_id).first()
+        return JsonResponse(
+            {"error": "Invalid JSON body."},
+            status=400,
+        )
 
-    if payment:
-        payment.callback_payload = payload
-        payment.result_description = callback.get('ResultDesc', '')
-        if callback.get('ResultCode') == 0:
-            payment.status = Payment.STATUS_SUCCESS
-            metadata = callback.get('CallbackMetadata', {}).get('Item', [])
-            receipt = next((item.get('Value') for item in metadata if item.get('Name') == 'MpesaReceiptNumber'), '')
-            payment.receipt_number = str(receipt)
-            payment.order.transaction_id = payment.receipt_number
-            payment.order.complete = True
-            payment.order.save(update_fields=['transaction_id', 'complete'])
-        else:
-            payment.status = Payment.STATUS_FAILED
-        payment.save()
+    phone_number = data.get("phone_number")
+    amount = data.get("amount")
+    account_reference = data.get("account_reference")
+    transaction_description = data.get("transaction_description")
 
-    return JsonResponse({'ResultCode': 0, 'ResultDesc': 'Accepted'})
+    if not phone_number:
+        return JsonResponse(
+            {"error": "phone_number is required."},
+            status=400,
+        )
+
+    if not amount:
+        return JsonResponse(
+            {"error": "amount is required."},
+            status=400,
+        )
+
+    if not account_reference:
+        return JsonResponse(
+            {"error": "account_reference is required."},
+            status=400,
+        )
+
+    if not transaction_description:
+        return JsonResponse(
+            {"error": "transaction_description is required."},
+            status=400,
+        )
+
+    try:
+        amount = int(amount)
+    except (TypeError, ValueError):
+        return JsonResponse(
+            {"error": "amount must be a whole number."},
+            status=400,
+        )
+
+    if amount <= 0:
+        return JsonResponse(
+            {"error": "amount must be greater than zero."},
+            status=400,
+        )
+
+    try:
+        response = initiate_stk_push(
+            phone_number=phone_number,
+            amount=amount,
+            account_reference=account_reference,
+            transaction_description=transaction_description,
+        )
+
+        return JsonResponse(response, status=200)
+
+    except Exception as error:
+        return JsonResponse(
+            {
+                "error": "Failed to initiate STK Push.",
+                "details": str(error),
+            },
+            status=500,
+        )
